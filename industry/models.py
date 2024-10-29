@@ -24,6 +24,7 @@ class Industry(models.Model):
     members = models.ManyToManyField(Member,related_name='%(class)s_industry',blank=True)
     owner = models.CharField(max_length=200)
     uuid = models.UUIDField(primary_key=True,editable=False,default=uuid4)
+    website = models.URLField(blank=True)
 
     def __str__(self):
         return self.name

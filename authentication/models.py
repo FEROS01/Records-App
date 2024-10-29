@@ -1,7 +1,10 @@
 from uuid import uuid4
 
 from django.db import models
+from django.core.exceptions import ValidationError
 from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
+
+# from .validators import email_exist
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, username, password=None):
@@ -45,6 +48,11 @@ class CustomUser(AbstractBaseUser):
 
     def __str__(self):
       return self.username
+    
+    def save(self,**kwargs):
+       if self.email:
+          return super().save(**kwargs)
+       raise ValidationError('Requires an email field')
     
     def has_perm(self, perm, obj=None):
         return True

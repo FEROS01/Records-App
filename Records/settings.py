@@ -36,6 +36,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'core',
     'industry',
     'authentication',
     'django.contrib.admin',
@@ -113,6 +114,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 AUTH_USER_MODEL = 'authentication.CustomUser'
+
+LOGIN_REDIRECT_URL = 'industry:index'
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
