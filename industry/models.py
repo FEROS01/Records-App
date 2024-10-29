@@ -55,6 +55,9 @@ class ChurchRecord(models.Model):
     text = models.CharField(max_length=200)
     service_date = models.DateTimeField(auto_now_add=True)
     edit_date = models.DateTimeField(auto_now=True)
+    male = models.PositiveIntegerField(_('number of males'),default=0)
+    female = models.PositiveIntegerField(_('number of females'),default=0)
+    children = models.PositiveIntegerField(_('number of children'),default=0)
 
     def __str__(self):
         return f"{self.church}_{self.service.name}_{self.service_date.date()}"
