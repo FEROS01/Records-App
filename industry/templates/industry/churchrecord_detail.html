@@ -1,0 +1,105 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+
+{% block content %}
+<style>
+    a {
+        color: inherit;
+        text-decoration: underline;
+    }
+
+    table {
+        border: 1;
+        width: 50%;
+        /* margin: 20px auto; */
+        border-collapse: collapse;
+        font-family: Arial, sans-serif;
+    }
+
+    th,
+    td {
+        padding: 12px;
+        text-align: center;
+        font-size: 15px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #000;
+        color: #fff;
+    }
+
+    tr:nth-child(odd) {
+        background-color: #fff;
+        color: #000;
+    }
+
+    th {
+        background-color: #333;
+        color: #fff;
+    }
+</style>
+<h1>{{churchrecord.service.name}}</h1>
+<p>Church: {{churchrecord.church.name}}</p>
+<p>Sermon: {{churchrecord.sermon_title}}</p>
+<p>Text: {{churchrecord.text}}</p>
+<p>Service Date: {{churchrecord.service_date|date}}</p>
+<p>Edit Date: {{churchrecord.edit_date|date}}</p>
+
+<h3>Attendance</h3>
+
+<table>
+    <thead>
+        <tr>
+            <th>Gender</th>
+            <th>Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Male</td>
+            <td>{{churchrecord.male}}</td>
+        </tr>
+        <tr>
+            <td>Female</td>
+            <td>{{churchrecord.female}}</td>
+        </tr>
+        <tr>
+            <td>Children</td>
+            <td>{{churchrecord.children}}</td>
+        </tr>
+        <tr>
+            <td><b>Total</b></td>
+            <td>{{churchrecord.total_attendance}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<h3>Offering</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Currency</th>
+            <th>Denomination</th>
+            <th>Frequency</th>
+            <th>Sum</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for offering in churchrecord.offering.all %}
+        <tr>
+            <td>{{offering.currency}}</td>
+            <td><a href="{% url 'industry:offering_update' offering.uuid %}">{{offering.denomination|intcomma}}</a></td>
+            <td>{{offering.frequency}}</td>
+            <td>{{offering.total|intcomma}}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td>{{churchrecord.get_currency}}</td>
+            <td><b>Total</b></td>
+            <td></td>
+            <td>{{churchrecord.total_offering|intcomma}}</td>
+        </tr>
+    </tbody>
+</table>
+<a href="{% url 'industry:offering_create' churchrecord.uuid %}">Add offering</a>
+{% endblock content %}

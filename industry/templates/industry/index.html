@@ -2,8 +2,14 @@
 
 {% block content %}
 <h3>Welcome {{user.username}}</h3>
+
+{% if user.is_authenticated %}
+<a href="{% url 'industry:church_list' %}">Churches</a>
 <form action="{% url 'authentication:logout' %}" method="post">
     {% csrf_token %}
     <button type="submit">Log Out??</button>
 </form>
+{% else %}
+<a href="{% url 'authentication:login' %}">login</a>
+{% endif %}
 {% endblock content %}

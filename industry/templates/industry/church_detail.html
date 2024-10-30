@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+
+
+{% block content %}
+<h2>{{church.name}}</h2>
+<p>Head Pastor: {{church.head_pastor}}</p>
+<p>Founder: {{church.owner}}</p>
+<p>Date Established: {{church.date_established|date}}</p>
+<p>Number of members: {{church.number_of_members}}</p>
+
+<h4>Services</h4>
+<ul>
+    {% for service in church.service.all %}
+    <li>{{service.name}}</li>
+    {% endfor %}
+</ul>
+
+<h4>Members</h4>
+<ul>
+    {% for member in church.members.all %}
+    <li>{{member.full_name}}</li>
+    {% endfor %}
+</ul>
+
+<h4>Managers</h4>
+<ul>
+    {% for manager in church.managers.all %}
+    <li>{{manager.full_name}}</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'industry:church_record_list' church.uuid %}">Church Records</a>
+{% endblock content %}

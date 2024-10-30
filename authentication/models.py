@@ -63,3 +63,11 @@ class CustomUser(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.is_admin
+    
+    @property
+    def full_name(self):
+        space = ''
+        if self.first_name or self.last_name:
+            space = ' '
+            return f"{self.first_name}{space}{self.last_name}"
+        return self.username
