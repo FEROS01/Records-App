@@ -21,14 +21,17 @@ class Member(models.Model):
 
 
 class Industry(models.Model):
-    name = models.CharField(_('industry_name'),unique=True)
+    name = models.CharField(unique=True)
     managers = models.ManyToManyField(
-        settings.AUTH_USER_MODEL,related_name='%(class)s_industry')
+        settings.AUTH_USER_MODEL,related_name='%(class)s_industry',null=True)
     members = models.ManyToManyField(Member,related_name='%(class)s_industry',blank=True)
     owner = models.CharField(_('Founder'),max_length=200)
     uuid = models.UUIDField(primary_key=True,editable=False,default=uuid4)
-    website = models.URLField(blank=True)
-    date_established = models.DateTimeField(default=timezone.now)
+    website = models.URLField(
+        blank=True, 
+        help_text='Prefix url scheme to website e.g https://www.example.com'
+        )
+    date_established = models.DateField(default=timezone.now)
 
     def __str__(self):
         return self.name

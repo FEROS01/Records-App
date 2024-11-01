@@ -3,6 +3,7 @@
 
 {% block content %}
 <h3>Church List</h3>
+<a href="{% url 'industry:church_create' %}">Register Church</a>
 <ul>
     {% for church in church_list %}
     <li><a href="{% url 'industry:church_detail' church.pk %}">{{church}}</a></li>

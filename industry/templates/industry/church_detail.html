@@ -1,14 +1,18 @@
 {% extends 'core/base.html' %}
+{% load humanize %}
 
 
 {% block content %}
 <h2>{{church.name}}</h2>
+<a href="{% url 'industry:church_update' church.uuid %}">Edit Church Profile</a>
 <p>Head Pastor: {{church.head_pastor}}</p>
 <p>Founder: {{church.owner}}</p>
+<p>Website: {{church.website|urlize|default:'No Website available'}}</p>
 <p>Date Established: {{church.date_established|date}}</p>
-<p>Number of members: {{church.number_of_members}}</p>
+<p>Number of members: {{church.number_of_members|intcomma}}</p>
 
 <h4>Services</h4>
+<a href="">Add Service</a>
 <ul>
     {% for service in church.service.all %}
     <li>{{service.name}}</li>
@@ -16,6 +20,7 @@
 </ul>
 
 <h4>Members</h4>
+<a href="">Add Member</a>
 <ul>
     {% for member in church.members.all %}
     <li>{{member.full_name}}</li>
@@ -23,6 +28,7 @@
 </ul>
 
 <h4>Managers</h4>
+<a href="">Add Manager</a>
 <ul>
     {% for manager in church.managers.all %}
     <li>{{manager.full_name}}</li>

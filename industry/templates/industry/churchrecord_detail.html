@@ -75,6 +75,7 @@
 </table>
 
 <h3>Offering</h3>
+<a href="{% url 'industry:offering_create' churchrecord.uuid %}">Add offering</a>
 <table>
     <thead>
         <tr>
@@ -101,5 +102,4 @@
         </tr>
     </tbody>
 </table>
-<a href="{% url 'industry:offering_create' churchrecord.uuid %}">Add offering</a>
 {% endblock content %}

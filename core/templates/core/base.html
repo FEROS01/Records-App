@@ -1,8 +1,17 @@
+<a href="{% url 'industry:index' %}">Home</a>
 {% if messages %}
 <ul>
     {% for message in messages %}
     <li>{{message}}</li>
     {% endfor %}
 </ul>
+{% endif %}
+{% if user.is_authenticated %}
+<form action="{% url 'authentication:logout' %}" method="post">
+    {% csrf_token %}
+    <button type="submit">Log Out??</button>
+</form>
+{% else %}
+<a href="{% url 'authentication:login' %}">login</a>
 {% endif %}
 {% block content %}{% endblock content %}

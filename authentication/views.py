@@ -1,8 +1,5 @@
-from django.forms import BaseModelForm
-from django.http import HttpResponse
-from django.contrib import messages as Msg
-from django.shortcuts import render
 from django.urls import reverse
+from django.contrib import messages as Msg
 from django.contrib.auth import get_user_model
 from django.views.generic.edit import CreateView
 

@@ -1,14 +1,20 @@
 from typing import Any
-from django.db.models.base import Model as Model
-from django.http.response import HttpResponse as HttpResponse
-from django.shortcuts import get_object_or_404
+
+from django.urls import reverse
+from django.contrib import messages as Msg
 from django.http import HttpResponseRedirect
+from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
+from django.db.models.base import Model as Model
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http.response import HttpResponse as HttpResponse
 from django.views.generic import (
-    TemplateView, ListView, DetailView,UpdateView, CreateView)
+    TemplateView, ListView, DetailView, UpdateView, CreateView)
 
 
-from .models import Church, ChurchRecord,Offering
-from .mixins import OfferingMixin
+from .mixins import OfferingMixin,ChurchMixin
+from .models import (
+    Church, ChurchRecord, Offering, Service)
 
 
 class IndexView(TemplateView):
@@ -20,11 +26,20 @@ class ChurchListView(ListView):
 class ChurchDetailView(DetailView):
     model = Church
 
-    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-        data = super().get_context_data(**kwargs)
-        print(data)
-        return data
-    
+class ChurchCreateView(LoginRequiredMixin,ChurchMixin,CreateView):
+    model = Church
+    template_name = 'industry/church_create.html'
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.save()
+        self.object.managers.add(self.request.user)
+        Msg.info(self.request,f'Successfully Registered {self.object.name}')
+        return HttpResponseRedirect(self.get_success_url())
+
+class ChurchUpdateView(LoginRequiredMixin,ChurchMixin,UpdateView):
+    model = Church
+
 class ChurchRecordListView(ListView):
     model =  ChurchRecord
 
@@ -53,7 +68,8 @@ class OfferingCreateView(OfferingMixin,CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['record'] = get_object_or_404(ChurchRecord,uuid=self.kwargs['pk'])
+        context['record'] = get_object_or_404(
+            ChurchRecord,uuid=self.kwargs['pk'])
         return context
 
     def form_valid(self, form):
@@ -61,7 +77,11 @@ class OfferingCreateView(OfferingMixin,CreateView):
         record_uuid = self.kwargs['pk']
         record = get_object_or_404(ChurchRecord,uuid=record_uuid)
         self.object.record = record
-        print(self.object)
         self.object.save()
-        print(self.object)
         return HttpResponseRedirect(self.get_success_url())
+
+# class ServiceCreateView(CreateView):
+#     model = Service
+
+# class ServiceUpdateView(CreateView):
+#     model = Service
