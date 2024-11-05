@@ -32,6 +32,7 @@ class Industry(models.Model):
         help_text='Prefix url scheme to website e.g https://www.example.com'
         )
     date_established = models.DateField(default=timezone.now)
+    about = models.CharField(default='', blank=True)
 
     def __str__(self):
         return self.name
@@ -48,6 +49,15 @@ class Church(Industry):
 
 
 class Service(models.Model):
+    class DayChoices(models.TextChoices):
+        MON = 'Monday'
+        TUE = 'Tuesday'
+        WED = 'Wednesday'
+        THU = 'Thursday'
+        FRI = 'Friday'
+        SAT = 'Saturday'
+        SUN = 'Sunday'
+
     uuid = models.UUIDField(default=uuid4,primary_key=True,editable=False)
     church = models.ForeignKey(
         Church,on_delete=models.CASCADE,related_name='service')
@@ -55,6 +65,7 @@ class Service(models.Model):
     description = models.TextField()
     start_time = models.TimeField(default='00:00')
     end_time = models.TimeField(default='00:00')
+    day = models.CharField(choices=DayChoices,default=DayChoices.MON)
 
     def __str__(self):
         return self.name

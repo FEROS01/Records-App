@@ -14,4 +14,7 @@ urlpatterns = [
     path('church_record_detail/<uuid:pk>', views.ChurchRecordDetailView.as_view(), name='church_record_detail'),
     path('offering_update/<uuid:pk>', views.OfferingUpdateView.as_view(), name='offering_update'),
     path('offering_create/<uuid:pk>', views.OfferingCreateView.as_view(), name='offering_create'),
+    path('service_create/<uuid:pk>', views.ServiceCreateView.as_view(), name='service_create'),
+    path('service_update/<uuid:pk>', views.ServiceUpdateView.as_view(), name='service_update'),
+    path('service_detail/<uuid:pk>', views.ServiceDetailView.as_view(), name='service_detail'),
 ]

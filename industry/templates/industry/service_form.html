@@ -1,0 +1,10 @@
+{% extends 'core/base.html' %}
+
+
+{% block content %}
+<form action="{% url 'industry:service_update' service.uuid %}" method="post">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit">Send</button>
+</form>
+{% endblock content %}

@@ -7,6 +7,7 @@
     {% for record in churchrecord_list %}
     <li><a href="{% url 'industry:church_record_detail' record.uuid %}">{{record.service.name}}</a></li>
     <p>{{record.sermon_title}}</p>
+    <p>{{record.service.day}}</p>
     <p>{{record.service_date|date}}</p>
     {% endfor %}
 </ul>

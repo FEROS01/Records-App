@@ -10,12 +10,16 @@
 <p>Website: {{church.website|urlize|default:'No Website available'}}</p>
 <p>Date Established: {{church.date_established|date}}</p>
 <p>Number of members: {{church.number_of_members|intcomma}}</p>
+<a href="{% url 'industry:church_record_list' church.uuid %}">Church Records</a>
+
 
 <h4>Services</h4>
-<a href="">Add Service</a>
+<a href="{% url 'industry:service_create' church.uuid %}">Add Service</a>
 <ul>
     {% for service in church.service.all %}
-    <li>{{service.name}}</li>
+    <li>
+        <a href="{% url 'industry:service_detail' service.uuid %}">{{service.name}}</a>
+    </li>
     {% endfor %}
 </ul>
 
@@ -35,5 +39,4 @@
     {% endfor %}
 </ul>
 
-<a href="{% url 'industry:church_record_list' church.uuid %}">Church Records</a>
 {% endblock content %}

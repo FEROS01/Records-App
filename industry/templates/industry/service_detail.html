@@ -1,0 +1,15 @@
+{% extends 'core/base.html' %}
+{% load humanize %}
+
+
+{% block content %}
+<h2>{{service.name}}</h2>
+<a href="{% url 'industry:service_update' service.uuid %}">Edit Service</a>
+<p>
+    Church: <a href="{% url 'industry:church_detail' service.church.uuid %}">{{service.church.name}}</a>
+</p>
+<p>Description: {{service.description}}</p>
+<p>Day: {{service.day}}</p>
+<p>Start: {{service.start_time}}</p>
+<p>End: {{service.end_time}}</p>
+{% endblock content %}
