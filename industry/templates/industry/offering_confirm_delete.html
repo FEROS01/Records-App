@@ -1,0 +1,13 @@
+{% extends 'core/base.html' %}
+
+
+{% block content %}
+<form action="{% url 'industry:offering_delete' offering.uuid record.uuid %}" method="post">
+    {% csrf_token %}
+    <p>Are you sure you want to delete <b>{{object.denomination}}</b></p>
+    {{form}}
+    <button type="submit">Yes</button>
+    <button><a href="{% url 'industry:church_record_detail' record.uuid %}">No</a></button>
+
+</form>
+{% endblock content %}

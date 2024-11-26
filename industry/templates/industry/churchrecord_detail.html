@@ -75,7 +75,10 @@
 </table>
 
 <h3>Offering</h3>
-<a href="{% url 'industry:offering_create' churchrecord.uuid %}">Add offering</a>
+{% if is_manager %}
+<a href="{% url 'industry:offering_create' churchrecord.uuid %}">
+    Add offering</a>
+{% endif %}
 <table>
     <thead>
         <tr>
@@ -83,15 +86,26 @@
             <th>Denomination</th>
             <th>Frequency</th>
             <th>Sum</th>
+            {% if is_manager %}
+            <th></th>
+            {% endif %}
         </tr>
     </thead>
     <tbody>
         {% for offering in churchrecord.offering.all %}
         <tr>
             <td>{{offering.currency}}</td>
-            <td><a href="{% url 'industry:offering_update' offering.uuid %}">{{offering.denomination|intcomma}}</a></td>
+            <td>{{offering.denomination|intcomma}}</td>
             <td>{{offering.frequency}}</td>
             <td>{{offering.total|intcomma}}</td>
+            {% if is_manager %}
+            <td>
+                <a href="{% url 'industry:offering_update' offering.uuid %}">
+                    Edit</a>
+                <a href="{% url 'industry:offering_delete' offering.uuid churchrecord.uuid %}">
+                    Delete</a>
+            </td>
+            {% endif %}
         </tr>
         {% endfor %}
         <tr>
@@ -99,6 +113,9 @@
             <td><b>Total</b></td>
             <td></td>
             <td>{{churchrecord.total_offering|intcomma}}</td>
+            {% if is_manager %}
+            <td></td>
+            {% endif %}
         </tr>
     </tbody>
 </table>

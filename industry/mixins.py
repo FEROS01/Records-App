@@ -1,4 +1,10 @@
 from django.urls import reverse
+from django.shortcuts import redirect, get_object_or_404
+from django.http import HttpResponseRedirect as Redirect
+
+
+from .models import Offering
+
 
 class OfferingMixin:
     fields = ('currency','denomination','frequency')
@@ -20,3 +26,9 @@ class ServiceMixin:
     def get_success_url(self):
         uuid = self.object.uuid
         return reverse('industry:service_detail',kwargs={'pk':uuid})
+    
+class ErrorMixin:
+    def dispatch(self, request, *args, **kwargs):
+        if self.test_func():
+            return super().dispatch(request, *args, **kwargs)
+        return Redirect(reverse('industry:restricted'))
