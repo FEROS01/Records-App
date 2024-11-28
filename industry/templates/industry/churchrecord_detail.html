@@ -39,14 +39,24 @@
     }
 </style>
 <h1>{{churchrecord.service.name}}</h1>
-<p>Church: {{churchrecord.church.name}}</p>
+<p>Church:
+    <a href="{% url 'industry:church_detail' churchrecord.church.uuid %}">
+        {{churchrecord.church.name}}
+    </a>
+</p>
 <p>Sermon: {{churchrecord.sermon_title}}</p>
 <p>Text: {{churchrecord.text}}</p>
 <p>Service Date: {{churchrecord.service_date|date}}</p>
 <p>Edit Date: {{churchrecord.edit_date|date}}</p>
 
 <h3>Attendance</h3>
-
+{% if is_manager %}
+<p>
+    <a href="{% url 'industry:church_record_update' churchrecord.uuid %}">
+        Edit Attendance
+    </a>
+</p>
+{% endif %}
 <table>
     <thead>
         <tr>

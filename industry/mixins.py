@@ -31,4 +31,4 @@ class ErrorMixin:
     def dispatch(self, request, *args, **kwargs):
         if self.test_func():
             return super().dispatch(request, *args, **kwargs)
-        return Redirect(reverse('industry:restricted'))
+        return Redirect(reverse('core:restricted'))

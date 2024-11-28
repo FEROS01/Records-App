@@ -4,7 +4,9 @@
 
 {% block content %}
 <h2>{{service.name}}</h2>
+{% if user in service.church.managers.all %}
 <a href="{% url 'industry:service_update' service.uuid %}">Edit Service</a>
+{% endif %}
 <p>
     Church: <a href="{% url 'industry:church_detail' service.church.uuid %}">{{service.church.name}}</a>
 </p>

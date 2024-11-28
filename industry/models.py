@@ -40,6 +40,10 @@ class Industry(models.Model):
     @property
     def number_of_members(self):
         return self.members.count()
+    
+    def is_manager(self,user):
+        is_manager = self.managers.filter(uuid=user.uuid).exists()
+        return is_manager
 
     class Meta:
         abstract = True
