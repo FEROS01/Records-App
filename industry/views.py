@@ -14,7 +14,7 @@ from django.views.generic import (
 from .mixins import (
     OfferingMixin, ChurchMixin, ServiceMixin, ErrorMixin)
 from .models import (
-    Church, ChurchRecord, Offering, Service)
+    Church, ChurchRecord, Offering, Service, Member)
 
 
 class IndexView(TemplateView):
@@ -179,3 +179,30 @@ class ServiceUpdateView(LoginRequiredMixin,ErrorMixin,ServiceMixin,UpdateView):
 
 class ServiceDetailView(DetailView):
     model = Service
+
+class MemberCreateView(LoginRequiredMixin,ErrorMixin,CreateView):
+    model = Member
+    template_name = 'industry/member_create.html'
+    fields = ('first_name','last_name','position')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        church_uuid = self.kwargs['pk']
+        church = get_object_or_404(Church,uuid=church_uuid)
+        context['church'] = church
+        return context
+    
+    def form_valid(self, form):        
+        church = get_object_or_404(Church,uuid=self.kwargs['pk'])
+        self.object = form.save()
+        church.members.add(self.object)
+        return HttpResponseRedirect(self.get_success_url())
+    
+    def get_success_url(self):
+        church_uuid = self.kwargs['pk']
+        return reverse('industry:church_detail',kwargs={'pk':church_uuid})
+        
+    def test_func(self):
+        church = get_object_or_404(Church,uuid=self.kwargs['pk'])
+        user = self.request.user
+        return church.is_manager(user)

@@ -30,7 +30,7 @@
 
 <h4>Members</h4>
 {% if user in church.managers.all %}
-<a href="">Add Member</a>
+<a href="{% url 'industry:member_create' church.uuid %}">Add Member</a>
 {% endif %}
 <ul>
     {% for member in church.members.all %}
