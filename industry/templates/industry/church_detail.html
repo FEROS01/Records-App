@@ -39,7 +39,7 @@
 </ul>
 
 <h4>Managers</h4>
-<a href="">Add Manager</a>
+<a href="{% url 'industry:manager_update' church.uuid %}">Add Manager</a>
 <ul>
     {% for manager in church.managers.all %}
     <li>{{manager.full_name}}</li>

@@ -46,6 +46,19 @@ class ChurchUpdateView(
         user_uuid = self.request.user.uuid
         is_manager = church.managers.filter(uuid=user_uuid).exists()
         return is_manager
+    
+class ChurchManagerUpdateView(ChurchUpdateView):
+    fields = ("managers",)
+    template_name = "industry/manager_update.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_list'] = get_user_model().objects.all()
+        church = self.get_object()
+        managers = church.managers.values_list('uuid',flat=True)
+        context['managers'] = {n:m for n,m in enumerate(managers)}
+
+        return context
 
 class ChurchRecordListView(ListView):
     model =  ChurchRecord

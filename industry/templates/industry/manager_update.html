@@ -1,0 +1,64 @@
+{% extends 'core/base.html' %}
+
+
+{% block content %}
+<h3>Select managers</h3>
+
+<button id="add">Add</button>
+<ul>
+    {% for users in user_list %}
+    <li>
+        <input type="checkbox" name="{{users.uuid}}" id="check">{{users.full_name}}
+    </li>
+    {% endfor %}
+</ul>
+
+<form style="display: none;" id="manager_form" action="{% url 'industry:manager_update' church.uuid %}" method="post">
+    {% csrf_token %}
+    {{form}}
+</form>
+
+{{managers|json_script:'managers'}}
+
+<script>
+    const value = JSON.parse(document.getElementById('managers').textContent);
+
+
+    document.querySelector('#add').addEventListener('click', function () {
+        document.querySelector('#manager_form').submit()
+    })
+
+    document.querySelectorAll('#check').forEach(element => {
+        if (Object.values(value).includes(element.name)) {
+            element.checked = true;
+        }
+    });
+
+
+    document.querySelectorAll('#check').forEach(input => {
+        input.addEventListener('click', function () {
+            let uuid = input.name
+            let option = findOption(uuid)
+            if (option) {
+                option.toggleAttribute('selected')
+            }
+        });
+    });
+
+
+    function findOption(uuid) {
+        let selectTag = document.getElementById('id_managers')
+        let length = selectTag.options.length
+
+        for (var i = 0; i < length; i++) {
+            if (selectTag.options[i].value == uuid) {
+                return selectTag.options[i]
+            }
+        }
+        return false
+    }
+
+
+
+</script>
+{% endblock content %}

@@ -24,7 +24,8 @@ class Industry(models.Model):
     name = models.CharField(unique=True)
     managers = models.ManyToManyField(
         settings.AUTH_USER_MODEL,related_name='%(class)s_industry',null=True)
-    members = models.ManyToManyField(Member,related_name='%(class)s_industry',blank=True)
+    members = models.ManyToManyField(
+        Member,related_name='%(class)s_industry',blank=True)
     owner = models.CharField(_('Founder'),max_length=200)
     uuid = models.UUIDField(primary_key=True,editable=False,default=uuid4)
     website = models.URLField(
