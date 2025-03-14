@@ -1,10 +1,12 @@
 from typing import Any
 
-from django.contrib import messages as Msg
+
 from django.urls import reverse
+from django_htmx.middleware import HtmxDetails
+from django.contrib import messages as Msg
 from django.http import HttpResponseRedirect
 from django.contrib.auth import get_user_model
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from django.db.models.base import Model as Model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http.response import HttpResponse as HttpResponse
@@ -22,6 +24,19 @@ class IndexView(TemplateView):
 
 class ChurchListView(ListView):
     model = Church
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.htmx:
+            data = self.request.GET['q']
+            return queryset.filter(name__icontains=data)
+        return queryset
+    
+    def get_template_names(self):
+        if self.request.htmx:
+            return ['industry/htmx_templates/managers.html']
+        return super().get_template_names()
+    
 
 class ChurchDetailView(DetailView):
     model = Church

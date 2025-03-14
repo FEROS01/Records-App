@@ -3,6 +3,11 @@
 
 {% block content %}
 <h3>Church List</h3>
+<div>
+    <input type="text" name="q" placeholder="Search" maxlength="100" required="" id="id_search"
+        hx-get="{% url 'industry:church_list' %}" hx-target="ul" hx-swap="outerHTML"
+        hx-trigger="keyup changed delay:300ms">
+</div>
 <a href="{% url 'industry:church_create' %}">Register Church</a>
 <ul>
     {% for church in church_list %}

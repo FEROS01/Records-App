@@ -34,7 +34,9 @@
 {% endif %}
 <ul>
     {% for member in church.members.all %}
-    <li>{{member.full_name}}</li>
+    <li>{{member.full_name}} &nbsp;
+        {{member.position}}
+    </li>
     {% endfor %}
 </ul>
 

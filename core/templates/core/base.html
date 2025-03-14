@@ -1,20 +1,42 @@
 {% load static %}
+{% load django_htmx %}
 
-<script src="{% static 'records/js/main.js' %}" defer></script>
-<a href="{% url 'industry:index' %}">Home</a>
-{% if messages %}
-<ul>
-    {% for message in messages %}
-    <li>{{message}}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-{% if user.is_authenticated %}
-<form action="{% url 'authentication:logout' %}" method="post">
-    {% csrf_token %}
-    <button type="submit">Log Out??</button>
-</form>
-{% else %}
-<a href="{% url 'authentication:login' %}">login</a>
-{% endif %}
-{% block content %}{% endblock content %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Records App</title>
+
+    <script src="{% static 'records/js/main.js' %}" defer></script>
+
+    <script src="{% static 'records/js/htmx.js' %}" defer></script>
+</head>
+
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    <a href="{% url 'industry:index' %}">Home</a>
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{message}}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% if user.is_authenticated %}
+    <form action="{% url 'authentication:logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Log Out??</button>
+    </form>
+    {% else %}
+    <a href="{% url 'authentication:login' %}">login</a>
+    {% endif %}
+
+    <div class="content">
+        {% block content %}{% endblock content %}
+    </div>
+
+</body>
+
+</html>
