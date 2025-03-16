@@ -2,50 +2,81 @@
 
 
 {% block content %}
+{{managers|json_script:'managers'}}
 <h3>Select managers</h3>
+<div class="search_box">
+    <input type="text" name="q" placeholder="Search" maxlength="100" required="" id="id_search"
+        hx-get="{% url 'industry:manager_update' church.uuid %}" hx-target=".swapping" hx-swap="outerHTML"
+        hx-select=".swapping" hx-trigger="keyup changed delay:300ms">
+</div>
 
 <button id="add">Add</button>
-{{form.managers.errors}}
-<ul>
-    {% for users in user_list %}
-    <li>
-        <input type="checkbox" name="{{users.uuid}}" id="check">{{users.full_name}}
-    </li>
-    {% endfor %}
-</ul>
+<div class="swapping">
+
+    <div class="user_list">
+        {{form.managers.errors}}
+        <ul>
+            {% for users in user_list %}
+            <li>
+                <input type="checkbox" name="{{users.uuid}}" class="check">{{users.full_name}}
+            </li>
+            {% empty %}
+            <p>No user available</p>
+            {% endfor %}
+        </ul>
+    </div>
+
+
+    <script defer>
+
+        document.querySelectorAll('.check').forEach(input => {
+            input.addEventListener('click', function () {
+                let uuid = input.name
+                let option = findOption(uuid)
+                if (option) {
+                    option.toggleAttribute('selected')
+                }
+            });
+        });
+
+    </script>
+</div>
 
 <form style="display: none;" id="manager_form" action="{% url 'industry:manager_update' church.uuid %}" method="post">
     {% csrf_token %}
     {{form}}
 </form>
 
-{{managers|json_script:'managers'}}
-
 <script>
-    const value = JSON.parse(document.getElementById('managers').textContent);
+    const value = JSON.parse(document.getElementById('managers').textContent);;
 
-
-    document.querySelector('#add').addEventListener('click', function () {
-        document.querySelector('#manager_form').submit()
-    })
-
-    document.querySelectorAll('#check').forEach(element => {
+    document.querySelectorAll('.check').forEach(element => {
         if (Object.values(value).includes(element.name)) {
             element.checked = true;
         }
     });
 
+    document.querySelector('#add').addEventListener('click', function () {
+        document.querySelector('#manager_form').submit()
+    })
 
-    document.querySelectorAll('#check').forEach(input => {
-        input.addEventListener('click', function () {
-            let uuid = input.name
-            let option = findOption(uuid)
-            if (option) {
-                option.toggleAttribute('selected')
-            }
-        });
+    document.addEventListener("htmx:beforeSwap", function () {
+        let elements = document.querySelectorAll(".check");
+        elements.forEach(el => el.remove());
+        elements = null;
     });
 
+    document.addEventListener("htmx:afterSwap", function () {
+        let selectedOptions = getSelectedOptions()
+        console.log(selectedOptions)
+
+        document.querySelectorAll('.check').forEach(element => {
+            if (selectedOptions.includes(element.name)) {
+                element.checked = true;
+            }
+        });
+
+    });
 
     function findOption(uuid) {
         let selectTag = document.getElementById('id_managers')
@@ -59,7 +90,18 @@
         return false
     }
 
+    function getSelectedOptions() {
+        let selected = [];
+        let selectTag = document.getElementById('id_managers')
+        let length = selectTag.options.length
 
-
+        for (var i = 0; i < length; i++) {
+            if (selectTag.options[i].selected == true) {
+                selected.push(selectTag.options[i].value)
+            }
+        }
+        return selected
+    }
 </script>
+
 {% endblock content %}

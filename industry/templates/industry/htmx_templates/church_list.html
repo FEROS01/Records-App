@@ -1,5 +1,7 @@
 <ul>
     {% for church in church_list %}
     <li><a href="{% url 'industry:church_detail' church.pk %}">{{church}}</a></li>
+    {% empty %}
+    <p>Church not found</p>
     {% endfor %}
 </ul>

@@ -7,12 +7,14 @@ from django.contrib import messages as Msg
 from django.http import HttpResponseRedirect
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+from django.db.models import F
 from django.db.models.base import Model as Model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http.response import HttpResponse as HttpResponse
 from django.views.generic import (
     TemplateView, ListView, DetailView, UpdateView, CreateView, DeleteView)
 
+from .utils import search_users
 from .mixins import (
     OfferingMixin, ChurchMixin, ServiceMixin, ErrorMixin)
 from .models import (
@@ -34,7 +36,7 @@ class ChurchListView(ListView):
     
     def get_template_names(self):
         if self.request.htmx:
-            return ['industry/htmx_templates/managers.html']
+            return ['industry/htmx_templates/church_list.html']
         return super().get_template_names()
     
 
@@ -66,9 +68,19 @@ class ChurchManagerUpdateView(ChurchUpdateView):
     fields = ("managers",)
     template_name = "industry/manager_update.html"
 
+    # def get_template_names(self):
+    #     if self.request.htmx:
+    #         return ['industry/htmx_templates/managers.html']
+    #     return super().get_template_names()
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user_list'] = get_user_model().objects.all()
+
+        if self.request.htmx:
+            search = self.request.GET['q']
+            context['user_list'] = search_users(search)
+            
         church = self.get_object()
         managers = church.managers.values_list('uuid',flat=True)
         context['managers'] = {n:m for n,m in enumerate(managers)}
