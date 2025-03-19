@@ -2,12 +2,10 @@ from typing import Any
 
 
 from django.urls import reverse
-from django_htmx.middleware import HtmxDetails
 from django.contrib import messages as Msg
 from django.http import HttpResponseRedirect
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
-from django.db.models import F
 from django.db.models.base import Model as Model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http.response import HttpResponse as HttpResponse
@@ -20,6 +18,12 @@ from .mixins import (
 from .models import (
     Church, ChurchRecord, Offering, Service, Member)
 
+
+def set_timezone(request):
+    django_timezone_exist = request.session.get('django_timezone',False)
+    if request.method == "POST" and not django_timezone_exist:
+        request.session["django_timezone"] = request.POST["timezone"]
+    return HttpResponse('')
 
 class IndexView(TemplateView):
     template_name = 'industry/index.html'

@@ -3,5 +3,6 @@
 {% block content %}
 <h3>Welcome {{user.username}}</h3>
 <a href="{% url 'industry:church_list' %}">Churches</a>
+<input id="timezone" hx-post="{% url 'industry:set_timezone' %}" hx-swap="none" type="hidden" name="timezone" value="">
 
 {% endblock content %}
