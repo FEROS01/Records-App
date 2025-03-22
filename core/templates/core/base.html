@@ -10,33 +10,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Records App</title>
 
+    <link rel="stylesheet" href="{% static 'records/css/styles.css' %}">
 
     <script src="{% static 'records/js/htmx.js' %}" defer></script>
     <script src="{% static 'records/js/main.js' %}" defer></script>
 </head>
 
 <body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-    <a href="{% url 'industry:index' %}">Home</a>
-    {% if messages %}
-    <ul>
-        {% for message in messages %}
-        <li>{{message}}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    {% if user.is_authenticated %}
-    <form action="{% url 'authentication:logout' %}" method="post">
-        {% csrf_token %}
-        <button type="submit">Log Out??</button>
-    </form>
-    {% else %}
-    <a href="{% url 'authentication:login' %}">login</a>
-    {% endif %}
+    {% block search_box %}{% endblock search_box %}
+    <div class="main">
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{message}}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <div class="top_card">
+            <nav class="navbar">
+                <div class="RI">
+                    <span class="icon"></span>
+                    <a href="{% url 'industry:index' %}">
+                        <h1>Logo</h1>
+                    </a>
+                </div>
+                <div class="nav-links">
+                    <a href="#">Dashboard</a>
+                    <a href="#">Records</a>
+                    <a href="#">Settings</a>
+                    {% if user.is_authenticated %}
+                    <form action="{% url 'authentication:logout' %}" method="post">
+                        {% csrf_token %}
+                        <button class="logout" type="submit">Log Out</button>
+                    </form>
+                    {% else %}
+                    <a href="{% url 'authentication:login' %}">Sign In</a>
+                    {% endif %}
+                </div>
+                <div class="icons">
+                    {% block search %}{% endblock search %}
+                    <span class="icon"></span>
+                    <span class="icon"></span>
+                </div>
+            </nav>
+            {% block nav_info %}{% endblock nav_info %}
+        </div>
 
-    <div class="content">
-        {% block content %}{% endblock content %}
+        <div class="content">
+            {% block content %}{% endblock content %}
+        </div>
     </div>
-
 </body>
 
 </html>

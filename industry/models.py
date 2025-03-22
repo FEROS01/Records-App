@@ -52,7 +52,6 @@ class Industry(models.Model):
 class Church(Industry):
     head_pastor = models.CharField(_("pastor's_name"),max_length=300)
 
-
 class Service(models.Model):
     class DayChoices(models.TextChoices):
         MON = 'Monday'
