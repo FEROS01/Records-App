@@ -1,7 +1,22 @@
-<ul>
+<ul class="industry-container">
     {% for church in church_list %}
-    <li><a href="{% url 'industry:church_detail' church.pk %}">{{church}}</a></li>
+
+    <li class="industry-card">
+
+        <a href="{% url 'industry:church_detail' church.pk %}">
+            <div class="card_icon"></div>
+        </a>
+        <div class="info">
+            <h2>{{ church.name }}</h2>
+            <p>Head Pastor: <b>{{ church.head_pastor }}</b></p>
+            <p>About: <b>{{ church.about|default:'NIL'|truncatewords:6 }}</b></p>
+            <p>Members: <b>{{ church.number_of_members }}</b></p>
+            <p>Date Established: <b>{{ church.date_established|date:"SHORT_DATE_FORMAT" }}</b></p>
+        </div>
+    </li>
     {% empty %}
-    <p>Church not found</p>
+    <div class="not_found">
+        <p>No Church found</p>
+    </div>
     {% endfor %}
 </ul>

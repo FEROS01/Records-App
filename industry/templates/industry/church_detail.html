@@ -1,18 +1,71 @@
 {% extends 'core/base.html' %}
 {% load humanize %}
 
+{% block nav_info %}
+<h2>{{church.name}}</h2>
+<div class="stats">
+
+    <div class="stat-card">
+        <h2>Number Of Members</h2>
+        <span>
+            <p>{{church.number_of_members|intcomma}}</p>
+            <div class="icon"></div>
+        </span>
+    </div>
+    <div class="stat-card">
+        <h2>Date Established</h2>
+        <span>
+            <p>{{church.date_established|date}}</p>
+            <div class="icon"></div>
+        </span>
+    </div>
+</div>
+{% endblock nav_info %}
 
 {% block content %}
-<h2>{{church.name}}</h2>
+
 {% if user in church.managers.all %}
 <a href="{% url 'industry:church_update' church.uuid %}">Edit Church Profile</a>
 {% endif %}
-<p>Head Pastor:<br>{{church.head_pastor}}</p>
-<p>Founder:<br>{{church.owner}}</p>
-<p>Website:<br>{{church.website|urlize|default:'No Website available'}}</p>
-<p>Date Established:<br>{{church.date_established|date}}</p>
-<p>Number of members:<br>{{church.number_of_members|intcomma}}</p>
-<a href="{% url 'industry:church_record_list' church.uuid %}">Church Records</a>
+<div class="sub">
+    <h2 class="sub_head">Church Info</h2>
+</div>
+<div class="info_card">
+    <div>
+
+        <div class="block">
+            <div class="icon"></div>
+            <p>Head Pastor:<br>{{church.head_pastor}}</p>
+        </div>
+
+        <div class="block">
+            <div class="icon"></div>
+            <p>Founder:<br>{{church.owner}}</p>
+        </div>
+
+        <div class="block">
+            <div class="icon"></div>
+            <p>Website:<br>{{church.website|urlize|default:'No Website available'}}</p>
+        </div>
+
+        <div class="block">
+            <div class="icon"></div>
+            <p>Date Established:<br>{{church.date_established|date}}</p>
+        </div>
+
+        <div class="block">
+            <div class="icon"></div>
+            <p>Number of members:<br>{{church.number_of_members|intcomma}}</p>
+        </div>
+
+        <div class="block">
+            <div class="icon"></div>
+            <p>About:<br>{{ church.about }}</p>
+        </div>
+    </div>
+    <a href="{% url 'industry:church_record_list' church.uuid %}">Church Records</a>
+</div>
+
 
 
 <h4>Services</h4>
