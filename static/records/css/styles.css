@@ -55,7 +55,7 @@ svg {
 }
 
 .content {
-    max-width: 600px;
+    max-width: 60rem;
     margin: 0rem auto;
 }
 
@@ -195,9 +195,9 @@ svg {
 .search_box input {
     color: var(--a50);
     width: 50%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid var(--a600);
+    padding: 1rem;
+    font-size: 1.6rem;
+    border: 0.1rem solid var(--a600);
     background-color: var(--a900);
     border-radius: 5rem;
     outline: none;
@@ -205,7 +205,7 @@ svg {
 }
 
 .search_box input:focus {
-    border: 1px solid var(--a400);
+    border: 0.1rem solid var(--a400);
 }
 
 /* Stats Section */
@@ -246,7 +246,8 @@ svg {
 /* Records Section */
 .industry-container {
     display: flex;
-    gap: 1.5rem;
+    justify-content: space-between;
+    gap: 4rem;
     flex-wrap: wrap;
     padding: 0rem;
 }
@@ -270,6 +271,7 @@ svg {
 .industry-card h2 {
     white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
     max-width: 20rem;
     font-size: 2.5rem;
     color: var(--a950);
@@ -305,6 +307,8 @@ svg {
 }
 
 .info_card {
+    font-size: 1.2rem;
+    color: var(--a500);
     padding: 2rem;
     display: flex;
     flex-direction: column;
@@ -313,6 +317,39 @@ svg {
 }
 
 .info_card .block {
-    display: flex;
-    align-items: center;
+    margin-block: 1rem;
+    grid-template-columns: max-content;
+    column-gap: 0.5rem;
+    display: grid;
+}
+
+.info_card .block>* {
+    grid-row: 1;
+    align-self: center;
+}
+
+.info_card .about {
+    max-width: 40rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.info_card .about.active {
+    white-space: wrap;
+    overflow: auto;
+}
+
+.info_card h4 {
+    font-weight: lighter;
+    margin: 0;
+}
+
+.info_card p {
+    font-weight: bold;
+    margin-block: 0.5rem;
+}
+
+.info_card .icon.right {
+    margin-left: auto;
 }

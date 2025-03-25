@@ -10,7 +10,7 @@ from django.utils.translation import gettext_lazy as _
 class Member(models.Model):
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
-    position = models.CharField()
+    position = models.CharField(default='Member', blank=True)
 
     @property
     def full_name(self):
@@ -23,7 +23,7 @@ class Member(models.Model):
 class Industry(models.Model):
     name = models.CharField(unique=True)
     managers = models.ManyToManyField(
-        settings.AUTH_USER_MODEL,related_name='%(class)s_industry',null=True)
+        settings.AUTH_USER_MODEL,related_name='%(class)s_industry')
     members = models.ManyToManyField(
         Member,related_name='%(class)s_industry',blank=True)
     owner = models.CharField(_('Founder'),max_length=200)
