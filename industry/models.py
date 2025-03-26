@@ -32,8 +32,12 @@ class Industry(models.Model):
         blank=True, 
         help_text='Prefix url scheme to website e.g https://www.example.com'
         )
-    date_established = models.DateField(default=timezone.now)
-    about = models.CharField(default='', blank=True)
+    date_established = models.DateField(
+        _('Established'),
+        default=timezone.now,
+        help_text= "Format: yyyy-mm-dd"
+        )
+    about = models.TextField(default='', blank=True)
 
     def __str__(self):
         return self.name
@@ -50,7 +54,7 @@ class Industry(models.Model):
         abstract = True
 
 class Church(Industry):
-    head_pastor = models.CharField(_("pastor's_name"),max_length=300)
+    head_pastor = models.CharField(_("pastor"),max_length=300)
 
 class Service(models.Model):
     class DayChoices(models.TextChoices):

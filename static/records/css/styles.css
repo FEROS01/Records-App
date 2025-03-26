@@ -24,6 +24,7 @@
     --a800: #454545;
     --a900: #3d3d3d;
     --a950: #1e1e1e;
+    --font-family: Arial, sans-serif;
     font-size: 10px;
     margin: 0;
     --Primary_color: #4CAF50;
@@ -36,8 +37,35 @@
     --Cards_color: #232323;
 }
 
+
+::-webkit-scrollbar {
+    width: 0.8rem;
+    height: 0.8rem;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--a100);
+    border-radius: 1rem;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--a400);
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--a500);
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--a500) var(--a100);
+}
+
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: var(--font-family);
     background-color: var(--a50);
     margin: 0;
     padding: 0;
@@ -84,12 +112,24 @@ svg {
 }
 
 .top_card h2 {
-    /* font-size: 1rem; */
     font-size: 3rem;
+}
+
+.top_card .h2_link {
+    width: fit-content;
+    padding: 0.5rem 0.7rem;
+    border-radius: 3rem;
+    text-decoration: none;
+    color: inherit;
+}
+
+.top_card .h2_link:hover {
+    color: var(--a200);
 }
 
 .top_card {
     color: var(--a100);
+    gap: 1.5rem;
     display: flex;
     flex-direction: column;
     background: linear-gradient(90deg, var(--a950) 0%, var(--a900) 80%, var(--a950) 100%);
@@ -139,10 +179,6 @@ svg {
     display: flex;
 }
 
-.navbar h1 {
-    /* font-size: 1rem; */
-    font-size: 1.5rem;
-}
 
 .nav-links .logout {
     all: unset;
@@ -208,41 +244,6 @@ svg {
     border: 0.1rem solid var(--a400);
 }
 
-/* Stats Section */
-.stats {
-    display: flex;
-    justify-content: space-between;
-}
-
-.stat-card {
-    flex-basis: 21%;
-    background-color: #4f4f4f5c;
-    padding: 1rem;
-    border-radius: 1rem;
-}
-
-.stat-card h2 {
-    font-weight: 200;
-    font-size: 1rem;
-    color: var(--Primary_text_color);
-}
-
-.stat-card p {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--Primary_color);
-}
-
-.stat-card span {
-    align-items: center;
-    display: flex;
-}
-
-.stat-card .icon {
-    margin-left: auto;
-}
-
 /* Records Section */
 .industry-container {
     display: flex;
@@ -263,7 +264,6 @@ svg {
 .industry-card .card_icon svg {
     width: 20rem;
     height: 20rem;
-    /* background-color: #4f4f4f4e; */
     fill: var(--a500);
 
 }
@@ -352,4 +352,132 @@ svg {
 
 .info_card .icon.right {
     margin-left: auto;
+}
+
+.form {
+    background-color: var(--a100);
+    border-radius: 2rem;
+    box-sizing: border-box;
+    padding: 2rem;
+    margin-top: 3rem;
+}
+
+.form button {
+    margin: 2rem;
+    background: var(--a700);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.form button:hover {
+    background: var(--a900);
+    /* Slightly darker for effect */
+}
+
+.form .errorlist {
+    color: crimson;
+    margin: 0rem;
+    padding: 0rem;
+    list-style: none;
+}
+
+.form .title {
+    font-size: 2.5rem;
+}
+
+.input-container p {
+    color: var(--a500);
+    margin-block: 0.5rem;
+}
+
+.input-container p,
+.input-container .errorlist li {
+    font-size: 1.2rem;
+    margin-left: 1rem;
+}
+
+.input-container {
+    height: 50px;
+    position: relative;
+    width: 100%;
+}
+
+.form .ic1 {
+    margin-top: 40px;
+}
+
+
+.input-container .input,
+textarea {
+    font-family: var(--font-family);
+    background-color: var(--a200);
+    border-radius: 12px;
+    border: 1px solid var(--a400);
+    box-sizing: border-box;
+    color: var(--a900);
+    font-size: 1.6rem;
+    height: 100%;
+    outline: 0;
+    padding: 4px 20px 0;
+    width: 100%;
+    resize: none;
+}
+
+.input-container .input:focus,
+textarea:focus {
+    background: var(--a50);
+    border-color: var(--a500);
+    outline: none;
+}
+
+.input-container.active .input,
+.input-container.active textarea {
+    background-color: var(--a300);
+}
+
+.input-container .input:focus~.cut,
+.input-container textarea:focus~.cut,
+.input-container .input:not(:placeholder-shown)~.cut,
+.input-container textarea:not(:placeholder-shown)~.cut {
+    transform: translateY(8px);
+}
+
+.input-container label {
+    color: var(--a700);
+    font-size: 1.5rem;
+    left: 2rem;
+    line-height: 1.4rem;
+    pointer-events: none;
+    position: absolute;
+    transform-origin: 0 50%;
+    transition: all 0.3s;
+    top: 2rem;
+}
+
+.input-container .input:focus~label,
+.input-container textarea:focus~label,
+.input-container .input:not(:placeholder-shown)~label,
+.input-container textarea:not(:placeholder-shown)~label {
+    transform: translateY(-40px) translateX(10px) scale(0.75);
+    background-color: var(--a100);
+    padding: 1rem;
+    border-radius: 2rem;
+}
+
+.input-container .input:not(:placeholder-shown)~label .input-container textarea:not(:placeholder-shown)~label {
+    color: var(--a800);
+}
+
+.input-container .input:focus~label,
+.input-container textarea:focus~label {
+    color: var(--a800);
+    font-weight: bold;
+
+    background-color: var(--a100);
+    padding: 1rem;
+    border-radius: 2rem;
 }

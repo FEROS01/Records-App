@@ -1,11 +1,36 @@
 {% extends 'core/base.html' %}
 
+{% block nav_info %}
+<a class="h2_link" href="{% url 'industry:church_detail' church.uuid %}">
+    <h2>{{church.name}}</h2>
+</a>
+{% endblock nav_info %}
 
 {% block content %}
-<h2>{{church.name}} Edit</h2>
-<form action="{% url 'industry:church_update' church.uuid %}" method="post">
+<form class="form" action="{% url 'industry:church_update' church.uuid %}" method="post">
     {% csrf_token %}
-    {{form}}
+    <p class="title">Edit Details</p>
+    {% for field in form %}
+    <div class="input-container ic1 {% if field.errors %}active{% endif %}">
+        {{field}}
+        <!-- <div class="cut"></div> -->
+        {{field.label_tag}}
+        {% if field.help_text and not field.errors %}
+        <p>{{field.help_text}}</p>
+        {% endif %}
+        <p>{{field.errors}}</p>
+    </div>
+    {% endfor %}
     <button type="submit">Send</button>
 </form>
+
+<script>
+    let inputs = document.querySelectorAll('input')
+    inputs.forEach((input) => {
+        input.setAttribute('placeholder', ' ')
+        if (input.type !== 'hidden') {
+            input.classList.add('input')
+        }
+    })
+</script>
 {% endblock content %}

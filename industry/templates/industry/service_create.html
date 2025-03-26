@@ -2,9 +2,29 @@
 
 
 {% block content %}
-<form action="{% url 'industry:service_create' church.uuid %}" method="post">
+<form class="form" action="{% url 'industry:service_create' church.uuid %}" method="post">
     {% csrf_token %}
-    {{form}}
-    <button type="submit">Send</button>
+    <p class="title">Add Service</p>
+    {% for field in form %}
+    <div class="input-container ic1 {% if field.errors %}active{% endif %}">
+        {{field}}
+        {{field.label_tag}}
+        {% if field.help_text and not field.errors %}
+        <p>{{field.help_text}}</p>
+        {% endif %}
+        <p>{{field.errors}}</p>
+    </div>
+    {% endfor %}
+    <button type="submit">Sign in</button>
 </form>
+
+<script>
+    let inputs = document.querySelectorAll('input')
+    inputs.forEach((input) => {
+        input.setAttribute('placeholder', ' ')
+        if (input.type !== 'hidden') {
+            input.classList.add('input')
+        }
+    })
+</script>
 {% endblock content %}
