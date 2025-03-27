@@ -1,5 +1,10 @@
 {% extends 'core/base.html' %}
 
+{% block nav_info %}
+<a class="h2_link" href="{% url 'industry:church_detail' church.uuid %}">
+    <h2>{{church.name}}</h2>
+</a>
+{% endblock nav_info %}
 
 {% block content %}
 <form class="form" action="{% url 'industry:service_create' church.uuid %}" method="post">
@@ -15,7 +20,7 @@
         <p>{{field.errors}}</p>
     </div>
     {% endfor %}
-    <button type="submit">Sign in</button>
+    <button type="submit">Add</button>
 </form>
 
 <script>

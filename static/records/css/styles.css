@@ -401,34 +401,63 @@ svg {
 }
 
 .input-container {
-    height: 50px;
+    height: 5rem;
     position: relative;
     width: 100%;
 }
 
 .form .ic1 {
-    margin-top: 40px;
+    margin-top: 4rem;
 }
 
 
 .input-container .input,
-textarea {
+textarea,
+.input-container select {
     font-family: var(--font-family);
     background-color: var(--a200);
-    border-radius: 12px;
-    border: 1px solid var(--a400);
+    border-radius: 1.2rem;
+    border: 0.1rem solid var(--a400);
     box-sizing: border-box;
     color: var(--a900);
     font-size: 1.6rem;
     height: 100%;
     outline: 0;
-    padding: 4px 20px 0;
+    padding: 0.4rem 2rem 0;
     width: 100%;
     resize: none;
+    transition: all 0.3s ease;
+}
+
+.input-container select {
+    appearance: none;
+    cursor: pointer;
+
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23454545'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1.2rem center;
+    background-size: 2rem;
+}
+
+.input-container select::-ms-expand {
+    display: none;
+}
+
+option {
+    background: var(--a100);
+    color: var(--a900);
+}
+
+@media (max-width: 600px) {
+    select {
+        font-size: 14px;
+        padding: 10px;
+    }
 }
 
 .input-container .input:focus,
-textarea:focus {
+textarea:focus,
+.input-container select:focus {
     background: var(--a50);
     border-color: var(--a500);
     outline: none;
@@ -443,7 +472,7 @@ textarea:focus {
 .input-container textarea:focus~.cut,
 .input-container .input:not(:placeholder-shown)~.cut,
 .input-container textarea:not(:placeholder-shown)~.cut {
-    transform: translateY(8px);
+    transform: translateY(0.8rem);
 }
 
 .input-container label {
@@ -460,9 +489,11 @@ textarea:focus {
 
 .input-container .input:focus~label,
 .input-container textarea:focus~label,
+.input-container select:focus~label,
 .input-container .input:not(:placeholder-shown)~label,
-.input-container textarea:not(:placeholder-shown)~label {
-    transform: translateY(-40px) translateX(10px) scale(0.75);
+.input-container textarea:not(:placeholder-shown)~label,
+.input-container select:not(:placeholder-shown)~label {
+    transform: translateY(-4rem) translateX(1rem) scale(0.75);
     background-color: var(--a100);
     padding: 1rem;
     border-radius: 2rem;
@@ -473,11 +504,41 @@ textarea:focus {
 }
 
 .input-container .input:focus~label,
-.input-container textarea:focus~label {
+.input-container textarea:focus~label,
+.input-container select:focus~label {
     color: var(--a800);
     font-weight: bold;
 
     background-color: var(--a100);
     padding: 1rem;
     border-radius: 2rem;
+}
+
+/* Select Manager */
+
+.user_list ul {
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.user_list li {
+    grid-template-columns: max-content;
+    display: grid;
+    font-size: 1.2rem;
+    /* align-items: center; */
+    border-radius: 1rem;
+    background-color: var(--a100);
+    padding: 1rem;
+    /* justify-content: space-between; */
+    margin: 2rem 2rem 0rem 0rem;
+    flex-basis: 25%;
+    /* display: flex; */
+    border: 0.1rem solid var(--a200);
+}
+
+li>* {
+    grid-row: 1;
+    align-self: center;
 }
