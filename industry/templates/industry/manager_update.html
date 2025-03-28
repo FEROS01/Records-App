@@ -103,7 +103,6 @@
 
     document.addEventListener("htmx:afterSwap", function () {
         let selectedOptions = getSelectedOptions()
-        console.log(selectedOptions)
 
         document.querySelectorAll('.check').forEach(element => {
             if (selectedOptions.includes(element.name)) {

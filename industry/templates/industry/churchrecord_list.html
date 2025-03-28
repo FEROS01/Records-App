@@ -1,14 +1,40 @@
 {% extends 'core/base.html' %}
 
+{% block nav_info %}
+<a class="h2_link" href="{% url 'industry:church_detail' church.uuid %}">
+    <h2>{{church.name}}</h2>
+</a>
+{% endblock nav_info %}
 
 {% block content %}
-<h3>{{church}} Records</h3>
-<ul>
+<div class="sub">
+    <h3 class="sub_head">Church Records</h3>
+    <div class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+            <path
+                d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z" />
+        </svg>
+    </div>
+</div>
+
+<ul class="industry-container">
     {% for record in churchrecord_list %}
-    <li><a href="{% url 'industry:church_record_detail' record.uuid %}">{{record.service.name}}</a></li>
-    <p>{{record.sermon_title}}</p>
-    <p>{{record.service.day}}</p>
-    <p>{{record.service_date|date}}</p>
+    <li class="industry-card">
+        <a href="{% url 'industry:church_record_detail' record.uuid %}">
+            <div class="card_icon"></div>
+        </a>
+        <div class="info">
+            <h2>{{record.service.name}}</h2>
+            <p>Title: <b>{{record.sermon_title}}</b></p>
+            <p>Day: <b>{{record.service.day}}</b></p>
+            <p>Date: <b>{{record.service_date|date}}</b></p>
+        </div>
+    </li>
+    {% empty %}
+    <div class="not_found">
+        <p>No Service found</p>
+    </div>
     {% endfor %}
 </ul>
 {% endblock content %}

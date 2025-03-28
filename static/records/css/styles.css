@@ -527,18 +527,15 @@ textarea:focus,
     grid-template-columns: max-content;
     display: grid;
     font-size: 1.2rem;
-    /* align-items: center; */
     border-radius: 1rem;
     background-color: var(--a100);
     padding: 1rem;
-    /* justify-content: space-between; */
     margin: 2rem 2rem 0rem 0rem;
     flex-basis: 25%;
-    /* display: flex; */
     border: 0.1rem solid var(--a200);
 }
 
-li>* {
+.user_list li>* {
     grid-row: 1;
     align-self: center;
 }
