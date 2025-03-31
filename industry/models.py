@@ -84,7 +84,7 @@ class ChurchRecord(models.Model):
         Church,on_delete=models.CASCADE,related_name='church_record')
     service = models.ForeignKey(
         Service,on_delete=models.CASCADE,related_name='service_record',default=None)
-    sermon_title = models.TextField()
+    sermon_title = models.CharField(max_length=200)
     text = models.CharField(max_length=200)
     service_date = models.DateTimeField(auto_now_add=True)
     edit_date = models.DateTimeField(auto_now=True)

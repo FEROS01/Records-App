@@ -1,0 +1,15 @@
+{% extends 'core/base.html' %}
+
+{% block nav_info %}
+<a class="h2_link" href="{% url 'industry:church_detail' church.uuid %}">
+    <h2>{{church.name}}</h2>
+</a>
+{% endblock nav_info %}
+
+{% block content %}
+<form action="{% url 'industry:record_create' church.uuid %}" method="post">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit">Send</button>
+</form>
+{% endblock content %}

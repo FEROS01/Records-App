@@ -17,6 +17,7 @@ urlpatterns = [
     #ChurchRecord Model URLs
     path('church_record_list/<uuid:pk>', views.ChurchRecordListView.as_view(), name='church_record_list'),
     path('church_record_detail/<uuid:pk>', views.ChurchRecordDetailView.as_view(), name='church_record_detail'),
+    path('church_record_create/<uuid:pk>', views.ChurchRecordCreateView.as_view(), name='record_create'),
     path('church_record_update/<uuid:pk>', views.ChurchRecordUpdateView.as_view(), name='church_record_update'),
 
     #Offering Model URLs

@@ -17,6 +17,7 @@ from .mixins import (
     OfferingMixin, ChurchMixin, ServiceMixin, ErrorMixin)
 from .models import (
     Church, ChurchRecord, Offering, Service, Member)
+from .forms import ChurchRecordForm
 
 
 def set_timezone(request):
@@ -72,11 +73,6 @@ class ChurchManagerUpdateView(ChurchUpdateView):
     fields = ("managers",)
     template_name = "industry/manager_update.html"
 
-    # def get_template_names(self):
-    #     if self.request.htmx:
-    #         return ['industry/htmx_templates/managers.html']
-    #     return super().get_template_names()
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user_list'] = get_user_model().objects.all()
@@ -116,7 +112,36 @@ class ChurchRecordDetailView(DetailView):
         context['is_manager'] = church.is_manager(user)
         return context
 
-class ChurchRecordUpdateView(ErrorMixin,UpdateView):
+class ChurchRecordCreateView(LoginRequiredMixin,ErrorMixin,CreateView):
+    model = ChurchRecord
+    form_class = ChurchRecordForm
+    template_name = 'industry/churchrecord_create.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['church'] = self.church
+        return context
+    
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['church_instance'] = self.church
+        return kwargs
+
+    def get_form(self, form_class = None):
+        form = super().get_form(form_class)
+        if self.request.method in ['POST', 'PUT']:
+            form.instance.church = self.church
+        return form
+    
+    def get_success_url(self):
+        return reverse('industry:church_record_list',kwargs={'pk':self.kwargs['pk']})
+    
+    def test_func(self):
+        church = get_object_or_404(Church,uuid=self.kwargs['pk'])
+        self.church = church
+        return church.is_manager(self.request.user)
+
+class ChurchRecordUpdateView(LoginRequiredMixin,ErrorMixin,UpdateView):
     model =  ChurchRecord
     fields = ('male','female','children')
 
@@ -169,7 +194,7 @@ class OfferingCreateView(
         user = self.request.user
         return church.is_manager(user)
 
-class OfferingDeleteView(ErrorMixin,DeleteView):
+class OfferingDeleteView(LoginRequiredMixin,ErrorMixin,DeleteView):
     model = Offering
     template_name = 'core/confirm_delete.html'
 
