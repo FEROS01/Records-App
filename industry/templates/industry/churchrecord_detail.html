@@ -1,62 +1,89 @@
 {% extends 'core/base.html' %}
 {% load humanize %}
 
+{% block nav_info %}
+<a class="h2_link" href="{% url 'industry:church_detail' churchrecord.church.uuid %}">
+    <h2>{{churchrecord.church.name}}</h2>
+</a>
+{% endblock nav_info %}
+
 {% block content %}
-<style>
-    a {
-        color: inherit;
-        text-decoration: underline;
-    }
 
-    table {
-        border: 1;
-        width: 50%;
-        /* margin: 20px auto; */
-        border-collapse: collapse;
-        font-family: Arial, sans-serif;
-    }
+<div class="sub">
+    <h3 class="sub_head">Record Information</h3>
+</div>
+<div class="info_card">
+    <div class="block">
+        <div class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 640 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                <path
+                    d="M344 24c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 24-32 0c-13.3 0-24 10.7-24 24s10.7 24 24 24l32 0 0 46.4L183.3 210c-14.5 8.7-23.3 24.3-23.3 41.2L160 512l96 0 0-96c0-35.3 28.7-64 64-64s64 28.7 64 64l0 96 96 0 0-260.8c0-16.9-8.8-32.5-23.3-41.2L344 142.4 344 96l32 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-32 0 0-24zM24.9 330.3C9.5 338.8 0 354.9 0 372.4L0 464c0 26.5 21.5 48 48 48l80 0 0-238.4L24.9 330.3zM592 512c26.5 0 48-21.5 48-48l0-91.6c0-17.5-9.5-33.6-24.9-42.1L512 273.6 512 512l80 0z" />
+            </svg>
+        </div>
+        <span>
+            <h4>Church</h4>
+            <p>{{churchrecord.church.name}}</p>
+        </span>
+    </div>
+    <div class="block">
+        <div class="icon">
+        </div>
+        <span>
+            <h4>Service</h4>
+            <p>{{churchrecord.service.name}}</p>
+        </span>
+    </div>
+    <div class="block">
+        <div class="icon">
+        </div>
+        <span>
+            <h4>Sermon</h4>
+            <p>{{churchrecord.sermon_title}}</p>
+        </span>
+    </div>
+    <div class="block">
+        <div class="icon">
+        </div>
+        <span>
+            <h4>Text</h4>
+            <p>{{churchrecord.text}}</p>
+        </span>
+    </div>
+    <div class="block">
+        <div class="icon">
+        </div>
+        <span>
+            <h4>Service Date</h4>
+            <p>{{churchrecord.service_date|date}}</p>
+        </span>
+    </div>
+    {% if is_manager %}
+    <div class="block">
+        <div class="icon">
+        </div>
+        <span>
+            <h4>Last Edit</h4>
+            <p>{{churchrecord.edit_date|date}}</p>
+        </span>
+    </div>
+    {% endif %}
+</div>
 
-    th,
-    td {
-        padding: 12px;
-        text-align: center;
-        font-size: 15px;
-    }
-
-    tr:nth-child(even) {
-        background-color: #000;
-        color: #fff;
-    }
-
-    tr:nth-child(odd) {
-        background-color: #fff;
-        color: #000;
-    }
-
-    th {
-        background-color: #333;
-        color: #fff;
-    }
-</style>
-<h1>{{churchrecord.service.name}}</h1>
-<p>Church:
-    <a href="{% url 'industry:church_detail' churchrecord.church.uuid %}">
-        {{churchrecord.church.name}}
+<div class="sub">
+    <h3 class="sub_head">Attendance</h3>
+    {% if is_manager %}
+    <a title="Edit Attendance" href="{% url 'industry:church_record_update' churchrecord.uuid %}">
+        <div class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                <path
+                    d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z" />
+            </svg>
+        </div>
     </a>
-</p>
-<p>Sermon: {{churchrecord.sermon_title}}</p>
-<p>Text: {{churchrecord.text}}</p>
-<p>Service Date: {{churchrecord.service_date|date}}</p>
-<p>Edit Date: {{churchrecord.edit_date|date}}</p>
-
-<h3>Attendance</h3>
-{% if is_manager %}
-<p>
-    <a href="{% url 'industry:church_record_update' churchrecord.uuid %}">
-        Edit Attendance
-    </a>
-</p>
-{% endif %}
+    {% endif %}
+</div>
 <table>
     <thead>
         <tr>
@@ -84,11 +111,20 @@
     </tbody>
 </table>
 
-<h3>Offering</h3>
-{% if is_manager %}
-<a href="{% url 'industry:offering_create' churchrecord.uuid %}">
-    Add offering</a>
-{% endif %}
+<div class="sub">
+    <h3 class="sub_head">Offering</h3>
+    {% if is_manager %}
+    <a title="Add Offering" href="{% url 'industry:offering_create' churchrecord.uuid %}">
+        <div class="icon">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                <path
+                    d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 144L48 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l144 0 0 144c0 17.7 14.3 32 32 32s32-14.3 32-32l0-144 144 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-144 0 0-144z" />
+            </svg>
+        </div>
+    </a>
+    {% endif %}
+</div>
 <table>
     <thead>
         <tr>
@@ -109,11 +145,13 @@
             <td>{{offering.frequency}}</td>
             <td>{{offering.total|intcomma}}</td>
             {% if is_manager %}
-            <td>
-                <a href="{% url 'industry:offering_update' offering.uuid %}">
-                    Edit</a>
-                <a href="{% url 'industry:offering_delete' offering.uuid churchrecord.uuid %}">
-                    Delete</a>
+            <td class="action">
+                <a title="Edit Entry" href="{% url 'industry:offering_update' offering.uuid %}">
+                    <div class="icon"></div>
+                </a>
+                <a title="Delete Entry" href="{% url 'industry:offering_delete' offering.uuid churchrecord.uuid %}">
+                    <div class="icon"></div>
+                </a>
             </td>
             {% endif %}
         </tr>

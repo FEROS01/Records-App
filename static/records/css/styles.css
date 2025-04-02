@@ -354,6 +354,10 @@ svg {
     margin-left: auto;
 }
 
+.info_card .icon.right svg.active {
+    transform: rotate(180deg);
+}
+
 .form {
     background-color: var(--a100);
     border-radius: 2rem;
@@ -538,4 +542,39 @@ textarea:focus,
 .user_list li>* {
     grid-row: 1;
     align-self: center;
+}
+
+
+table {
+    border: none;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td.action {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+th,
+td {
+    padding: 1.2rem;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+tr:nth-child(even) {
+    background-color: var(--a950);
+    color: var(--a50);
+}
+
+
+tr:nth-child(odd) {
+    background-color: var(--a100);
+    color: var(--a950);
+}
+
+th {
+    background-color: var(--a700);
+    color: var(--a50);
 }

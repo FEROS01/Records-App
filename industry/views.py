@@ -48,6 +48,11 @@ class ChurchListView(ListView):
 class ChurchDetailView(DetailView):
     model = Church
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_manager'] = self.get_object().is_manager(self.request.user)
+        return context
+
 class ChurchCreateView(LoginRequiredMixin,ChurchMixin,CreateView):
     model = Church
     template_name = 'industry/church_create.html'
@@ -94,13 +99,14 @@ class ChurchRecordListView(ListView):
         context = super().get_context_data(**kwargs)
         church = get_object_or_404(Church,uuid=self.church_uuid)
         context['church'] = church
+        context['is_manager'] = church.is_manager(self.request.user)
         return context
 
     def get_queryset(self):
         queryset = super().get_queryset()
         self.church_uuid = self.kwargs['pk']
         church_records = queryset.filter(church__uuid=self.church_uuid)
-        return church_records
+        return church_records.order_by('service_date')
 
 class ChurchRecordDetailView(DetailView):
     model =  ChurchRecord

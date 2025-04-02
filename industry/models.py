@@ -47,7 +47,9 @@ class Industry(models.Model):
         return self.members.count()
     
     def is_manager(self,user):
-        is_manager = self.managers.filter(uuid=user.uuid).exists()
+        is_manager = False
+        if user.is_authenticated:
+            is_manager = self.managers.filter(uuid=user.uuid).exists()
         return is_manager
 
     class Meta:
