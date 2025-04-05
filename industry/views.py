@@ -13,8 +13,7 @@ from django.views.generic import (
     TemplateView, ListView, DetailView, UpdateView, CreateView, DeleteView)
 
 from .utils import search_users
-from .mixins import (
-    OfferingMixin, ChurchMixin, ServiceMixin, ErrorMixin)
+from .mixins import *
 from .models import (
     Church, ChurchRecord, Offering, Service, Member)
 from .forms import ChurchRecordForm
@@ -118,26 +117,11 @@ class ChurchRecordDetailView(DetailView):
         context['is_manager'] = church.is_manager(user)
         return context
 
-class ChurchRecordCreateView(LoginRequiredMixin,ErrorMixin,CreateView):
+class ChurchRecordCreateView(
+    LoginRequiredMixin,ErrorMixin,RecordMixin,CreateView):
     model = ChurchRecord
-    form_class = ChurchRecordForm
     template_name = 'industry/churchrecord_create.html'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['church'] = self.church
-        return context
-    
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs['church_instance'] = self.church
-        return kwargs
-
-    def get_form(self, form_class = None):
-        form = super().get_form(form_class)
-        if self.request.method in ['POST', 'PUT']:
-            form.instance.church = self.church
-        return form
+    create = True
     
     def get_success_url(self):
         return reverse('industry:church_record_list',kwargs={'pk':self.kwargs['pk']})
@@ -146,9 +130,25 @@ class ChurchRecordCreateView(LoginRequiredMixin,ErrorMixin,CreateView):
         church = get_object_or_404(Church,uuid=self.kwargs['pk'])
         self.church = church
         return church.is_manager(self.request.user)
+    
+class ChurchRecordUpdateView(
+    LoginRequiredMixin,ErrorMixin,RecordMixin,UpdateView):
+    model = ChurchRecord
+    create = False
+    
+    def get_success_url(self):
+        uuid = self.object.uuid
+        return reverse('industry:church_record_detail',kwargs={'pk':uuid})
+    
+    def test_func(self):
+        record = self.get_object()
+        church = record.church
+        self.church = church
+        return church.is_manager(self.request.user)
 
-class ChurchRecordUpdateView(LoginRequiredMixin,ErrorMixin,UpdateView):
+class AttendanceUpdateView(LoginRequiredMixin,ErrorMixin,UpdateView):
     model =  ChurchRecord
+    template_name = 'industry/attendance_form.html'
     fields = ('male','female','children')
 
     def get_success_url(self):

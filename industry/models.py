@@ -88,14 +88,18 @@ class ChurchRecord(models.Model):
         Service,on_delete=models.CASCADE,related_name='service_record',default=None)
     sermon_title = models.CharField(max_length=200)
     text = models.CharField(max_length=200)
-    service_date = models.DateTimeField(auto_now_add=True)
+    service_date = models.DateField(
+        _('service date'),
+        default=timezone.now,
+        help_text= "Format: yyyy-mm-dd",
+    )
     edit_date = models.DateTimeField(auto_now=True)
     male = models.PositiveIntegerField(_('number of males'),default=0)
     female = models.PositiveIntegerField(_('number of females'),default=0)
     children = models.PositiveIntegerField(_('number of children'),default=0)
 
     def __str__(self):
-        return f"{self.church}_{self.service.name}_{self.service_date.date()}"
+        return f"{self.church}_{self.service.name}_{self.service_date.month}"
 
     @cached_property
     def total_offering(self):

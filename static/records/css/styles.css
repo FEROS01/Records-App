@@ -366,8 +366,11 @@ svg {
     margin-top: 3rem;
 }
 
+.form>* {
+    margin-top: 4rem;
+}
+
 .form button {
-    margin: 2rem;
     background: var(--a700);
     color: white;
     border: none;
@@ -408,10 +411,6 @@ svg {
     height: 5rem;
     position: relative;
     width: 100%;
-}
-
-.form .ic1 {
-    margin-top: 4rem;
 }
 
 

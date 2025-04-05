@@ -1,15 +1,17 @@
 {% extends 'core/base.html' %}
 
 {% block nav_info %}
-<a class="h2_link" href="{% url 'industry:church_detail' church.uuid %}">
-    <h2>{{church.name}}</h2>
+<a class="h2_link" href="{% url 'industry:church_record_list' church.uuid %}">
+    <h2>{{church.name}} Records</h2>
 </a>
 {% endblock nav_info %}
 
 {% block content %}
 <form class="form" action="{% url 'industry:record_create' church.uuid %}" method="post">
     {% csrf_token %}
+
     <p class="title">Add Record</p>
+
     {{ form.non_field_errors }}
     {% for field in form %}
     <div class="input-container ic1 {% if field.errors %}active{% endif %}">

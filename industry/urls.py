@@ -18,7 +18,8 @@ urlpatterns = [
     path('church_record_list/<uuid:pk>', views.ChurchRecordListView.as_view(), name='church_record_list'),
     path('church_record_detail/<uuid:pk>', views.ChurchRecordDetailView.as_view(), name='church_record_detail'),
     path('church_record_create/<uuid:pk>', views.ChurchRecordCreateView.as_view(), name='record_create'),
-    path('church_record_update/<uuid:pk>', views.ChurchRecordUpdateView.as_view(), name='church_record_update'),
+    path('church_record_update/<uuid:pk>', views.ChurchRecordUpdateView.as_view(), name='record_update'),
+    path('attendance_update/<uuid:pk>', views.AttendanceUpdateView.as_view(), name='attendance_update'),
 
     #Offering Model URLs
     path('offering_update/<uuid:pk>', views.OfferingUpdateView.as_view(), name='offering_update'),

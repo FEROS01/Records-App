@@ -17,4 +17,8 @@ class ChurchRecordForm(forms.ModelForm):
     class Meta:
         model = ChurchRecord
         fields = (
-            'service','sermon_title','text','male','female','children')
+            'service',
+            'sermon_title',
+            'text',
+            'service_date',
+            )
