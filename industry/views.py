@@ -60,12 +60,16 @@ class ChurchCreateView(LoginRequiredMixin,ChurchMixin,CreateView):
         self.object = form.save(commit=False)
         self.object.save()
         self.object.managers.add(self.request.user)
-        Msg.info(self.request,f'Successfully Registered {self.object.name}')
+        Msg.success(self.request,f'Successfully Registered {self.object.name}')
         return HttpResponseRedirect(self.get_success_url())
 
 class ChurchUpdateView(
     LoginRequiredMixin,ErrorMixin,ChurchMixin,UpdateView):
     model = Church
+    
+    def form_valid(self, form):
+        Msg.info(self.request,f'Successfully updated {self.object.name}')
+        return super().form_valid(form)
 
     def test_func(self):
         church = self.get_object()
@@ -77,6 +81,10 @@ class ChurchManagerUpdateView(ChurchUpdateView):
     fields = ("managers",)
     template_name = "industry/manager_update.html"
 
+    def form_valid(self, form):
+        Msg.success(self.request,f'Successfully Added Managers to {self.object.name}')
+        return super().form_valid(form)
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user_list'] = get_user_model().objects.all()
@@ -123,6 +131,10 @@ class ChurchRecordCreateView(
     template_name = 'industry/churchrecord_create.html'
     create = True
     
+    def form_valid(self, form):
+        Msg.success(self.request,f'Successfully added record')
+        return super().form_valid(form)
+
     def get_success_url(self):
         return reverse('industry:church_record_list',kwargs={'pk':self.kwargs['pk']})
     
@@ -136,6 +148,10 @@ class ChurchRecordUpdateView(
     model = ChurchRecord
     create = False
     
+    def form_valid(self, form):
+        Msg.success(self.request,f'Successfully updated record')
+        return super().form_valid(form)
+
     def get_success_url(self):
         uuid = self.object.uuid
         return reverse('industry:church_record_detail',kwargs={'pk':uuid})
@@ -151,6 +167,10 @@ class AttendanceUpdateView(LoginRequiredMixin,ErrorMixin,UpdateView):
     template_name = 'industry/attendance_form.html'
     fields = ('male','female','children')
 
+    def form_valid(self, form):
+        Msg.success(self.request,f'Successfully updated attendance')
+        return super().form_valid(form)
+
     def get_success_url(self):
         uuid = self.object.uuid
         return reverse('industry:church_record_detail',kwargs={'pk':uuid})
@@ -164,6 +184,10 @@ class AttendanceUpdateView(LoginRequiredMixin,ErrorMixin,UpdateView):
 class OfferingUpdateView(
     LoginRequiredMixin,ErrorMixin,OfferingMixin,UpdateView):
     model = Offering
+
+    def form_valid(self, form):
+        Msg.success(self.request,f'Successfully updated offerring')
+        return super().form_valid(form)
 
     def test_func(self):
         offering = self.get_object()
@@ -192,6 +216,7 @@ class OfferingCreateView(
         record = self.get_record_object()
         self.object.record = record
         self.object.save()
+        Msg.success(self.request,f'Successfully added offerring')
         return HttpResponseRedirect(self.get_success_url())
 
     def test_func(self):
@@ -235,6 +260,8 @@ class ServiceCreateView(LoginRequiredMixin,ServiceMixin,CreateView):
             self.object = form.save(commit=False)
             self.object.church = church
             self.object.save()
+            Msg.success(self.request,f'Successfully added {self.object.name} service')
+
             return HttpResponseRedirect(self.get_success_url())
         return HttpResponseRedirect(reverse('core:restricted'))
 
@@ -245,7 +272,10 @@ class ServiceCreateView(LoginRequiredMixin,ServiceMixin,CreateView):
 
 class ServiceUpdateView(LoginRequiredMixin,ErrorMixin,ServiceMixin,UpdateView):
     model = Service
-
+     
+    def form_valid(self, form):
+        Msg.success(self.request,f'Successfully updated {self.object.name} service')
+        return super().form_valid(form) 
     def test_func(self):
         service = self.get_object()
         church = service.church
@@ -271,6 +301,7 @@ class MemberCreateView(LoginRequiredMixin,ErrorMixin,CreateView):
         church = get_object_or_404(Church,uuid=self.kwargs['pk'])
         self.object = form.save()
         church.members.add(self.object)
+        Msg.success(self.request,f'Successfully added {self.object.full_name}')
         return HttpResponseRedirect(self.get_success_url())
     
     def get_success_url(self):
