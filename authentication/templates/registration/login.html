@@ -4,6 +4,7 @@
 <form class="form" action="{% url 'authentication:login' %}" method="post">
     {% csrf_token %}
     <p class="title">Sign In</p>
+    {{ form.non_field_errors }}
     {% for field in form %}
     <div class="input-container ic1 {% if field.errors %}active{% endif %}">
         {{field}}

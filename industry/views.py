@@ -68,7 +68,7 @@ class ChurchUpdateView(
     model = Church
     
     def form_valid(self, form):
-        Msg.info(self.request,f'Successfully updated {self.object.name}')
+        Msg.success(self.request,f'Successfully updated {self.object.name}')
         return super().form_valid(form)
 
     def test_func(self):

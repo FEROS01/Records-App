@@ -99,9 +99,6 @@ svg {
     position: fixed;
     color: var(--a950);
     border-radius: 2rem;
-}
-
-.p_box {
     opacity: 1;
     transition: opacity 0.5s ease;
     animation: fadeOut 2s forwards;
@@ -117,14 +114,20 @@ svg {
 
 
 .p_box ul {
+    flex-direction: column;
     list-style: none;
     margin: 0rem;
     display: flex;
     background: var(--a100);
     border-radius: 2rem;
     padding: 1rem;
-    align-items: center;
     gap: 0.5rem;
+}
+
+.p_box li {
+    gap: 0.5rem;
+    align-items: center;
+    display: flex;
 }
 
 .p_box svg {
@@ -136,7 +139,27 @@ svg {
     fill: var(--success);
 }
 
+.p_box p {
+    margin: 0;
+}
 
+.m_search {
+    font-family: var(--font-family);
+    background-color: var(--a200);
+    border-radius: 1rem;
+    border: 0.1rem solid var(--a400);
+    box-sizing: border-box;
+    color: var(--a900);
+    font-size: 1.3rem;
+    outline: 0;
+    padding: 0.5rem;
+    resize: none;
+    transition: all 0.3s ease;
+}
+
+.m_search:focus {
+    border: 0.1rem solid var(--a400);
+}
 
 /* Dashboard Container */
 
