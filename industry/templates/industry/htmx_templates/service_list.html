@@ -1,0 +1,19 @@
+<ul class="industry-container">
+    {% for service in services %}
+    <li class="industry-card">
+        <a href="{% url 'industry:service_detail' service.uuid %}">
+            <div class="card_icon"></div>
+        </a>
+
+        <div class="info">
+            <h2>{{ service.name }}</h2>
+            <p>Time: <b>{{service.start_time|date:'h A'}} - {{service.end_time|date:'h A'}}</b></p>
+            <p>Description: <b>{{service.description|default:'NIL'}}</b></p>
+        </div>
+    </li>
+    {% empty %}
+    <div class="not_found">
+        <p>No Service found</p>
+    </div>
+    {% endfor %}
+</ul>

@@ -131,8 +131,9 @@
 <div class="sub">
     <h2 class="sub_head">Services</h2>
     <input class="m_search" type="text" name="q" placeholder="Search Services" maxlength="100" required=""
-        id="id_search">
-    <div class="icon">
+        hx-get="{% url 'industry:church_detail' church.uuid %}" hx-target="next .industry-container" hx-swap="outerHTML"
+        hx-vals='{"type":"service"}' hx-trigger="keyup changed delay:300ms" id="id_search">
+    <div class="icon reveal_btn">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
             <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
             <path
@@ -154,7 +155,7 @@
 
 
 <ul class="industry-container">
-    {% for service in church.service.all %}
+    {% for service in services %}
     <li class="industry-card">
         <a href="{% url 'industry:service_detail' service.uuid %}">
             <div class="card_icon"></div>
@@ -175,7 +176,10 @@
 
 <div class="sub">
     <h4 class="sub_head">Members</h4>
-    <div class="icon">
+    <input class="m_search" type="text" name="q" placeholder="Search Members" maxlength="100" required=""
+        hx-get="{% url 'industry:church_detail' church.uuid %}" hx-target="next .industry-container" hx-swap="outerHTML"
+        hx-vals='{"type":"member"}' hx-trigger="keyup changed delay:300ms" id="id_search">
+    <div class="icon reveal_btn">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
             <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
             <path
@@ -196,7 +200,7 @@
 </div>
 
 <ul class="industry-container">
-    {% for member in church.members.all %}
+    {% for member in members %}
     <li class="industry-card">
         <div class="card_icon"></div>
         <p>Name: <b>{{member.full_name}}</b></p>
@@ -245,6 +249,15 @@
         about.classList.toggle('active')
         unfold.classList.toggle('active')
     })
+
+    let reveal_btns = document.querySelectorAll(".reveal_btn")
+    reveal_btns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const input = btn.previousElementSibling;
+            input.classList.toggle("reveal");
+        });
+    })
+
 </script>
 
 {% endblock content %}

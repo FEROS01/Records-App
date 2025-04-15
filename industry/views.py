@@ -1,8 +1,9 @@
 from typing import Any
 
-
+from django.db.models import Q
 from django.urls import reverse
 from django.contrib import messages as Msg
+from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
@@ -12,7 +13,7 @@ from django.http.response import HttpResponse as HttpResponse
 from django.views.generic import (
     TemplateView, ListView, DetailView, UpdateView, CreateView, DeleteView)
 
-from .utils import search_users
+from .utils import search_users, setup_context
 from .mixins import *
 from .models import (
     Church, ChurchRecord, Offering, Service, Member)
@@ -49,8 +50,26 @@ class ChurchDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        church = self.get_object()
         context['is_manager'] = self.get_object().is_manager(self.request.user)
+        service_pag = Paginator(church.service.all(),4,orphans=1)
+        member_pag = Paginator(church.members.all(),4,orphans=1)
+
+        context['services'] = service_pag.get_page(1)
+        context['members'] = member_pag.get_page(1)
+
+        if self.request.htmx:
+            context = setup_context(self.request, church)
         return context
+    
+    def get_template_names(self):
+        if self.request.htmx:
+            search_type = self.request.GET['type']
+            if search_type == 'service':
+                return ['industry/htmx_templates/service_list.html']
+            elif search_type == 'member':
+                return ['industry/htmx_templates/member_list.html']
+        return super().get_template_names()
 
 class ChurchCreateView(LoginRequiredMixin,ChurchMixin,CreateView):
     model = Church

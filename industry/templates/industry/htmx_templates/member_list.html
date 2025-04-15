@@ -1,0 +1,13 @@
+<ul class="industry-container">
+    {% for member in members %}
+    <li class="industry-card">
+        <div class="card_icon"></div>
+        <p>Name: <b>{{member.full_name}}</b></p>
+        <p>Position: <b>{{member.position}}</b></p>
+    </li>
+    {% empty %}
+    <div class="not_found">
+        <p>No Member found</p>
+    </div>
+    {% endfor %}
+</ul>

@@ -148,17 +148,26 @@ svg {
     background-color: var(--a200);
     border-radius: 1rem;
     border: 0.1rem solid var(--a400);
-    box-sizing: border-box;
     color: var(--a900);
     font-size: 1.3rem;
-    outline: 0;
+    opacity: 0;
+    width: 0;
+    transform: scaleX(0.5);
+    transition: all 0.4s ease;
+    padding: 0;
+    outline: none;
+}
+
+.m_search.reveal {
+    width: initial;
     padding: 0.5rem;
-    resize: none;
-    transition: all 0.3s ease;
+    opacity: 1;
+    transform: scaleX(1);
 }
 
 .m_search:focus {
-    border: 0.1rem solid var(--a400);
+    background-color: var(--a100);
+
 }
 
 /* Dashboard Container */
