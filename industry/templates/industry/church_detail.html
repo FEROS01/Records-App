@@ -130,8 +130,9 @@
 
 <div class="sub">
     <h2 class="sub_head">Services</h2>
+    {% if services %}
     <input class="m_search" type="text" name="q" placeholder="Search Services" maxlength="100" required=""
-        hx-get="{% url 'industry:church_detail' church.uuid %}" hx-target="next .industry-container" hx-swap="outerHTML"
+        hx-get="{% url 'industry:church_detail' church.uuid %}" hx-target="next .container" hx-swap="outerHTML"
         hx-vals='{"type":"service"}' hx-trigger="keyup changed delay:300ms" id="id_search">
     <div class="icon reveal_btn">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -140,6 +141,8 @@
                 d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
         </svg>
     </div>
+    {% endif %}
+
     {% if is_manager %}
     <a title="Add Service" href="{% url 'industry:service_create' church.uuid %}">
         <div class="icon">
@@ -153,31 +156,54 @@
     {% endif %}
 </div>
 
+<div class="container">
+    <ul class="industry-container">
 
-<ul class="industry-container">
-    {% for service in services %}
-    <li class="industry-card">
-        <a href="{% url 'industry:service_detail' service.uuid %}">
-            <div class="card_icon"></div>
-        </a>
+        {% for service in services %}
+        <li class="industry-card">
+            <a href="{% url 'industry:service_detail' service.uuid %}">
+                <div class="card_icon"></div>
+            </a>
 
-        <div class="info">
-            <h2>{{ service.name }}</h2>
-            <p>Time: <b>{{service.start_time|date:'h A'}} - {{service.end_time|date:'h A'}}</b></p>
-            <p>Description: <b>{{service.description|default:'NIL'}}</b></p>
+            <div class="info">
+                <h2>{{ service.name }}</h2>
+                <p>Time: <b>{{service.start_time|date:'h A'}} - {{service.end_time|date:'h A'}}</b></p>
+                <p>Description: <b>{{service.description|default:'NIL'}}</b></p>
+            </div>
+        </li>
+        {% empty %}
+        <div class="not_found">
+            <p>No Service found</p>
         </div>
-    </li>
-    {% empty %}
-    <div class="not_found">
-        <p>No Service found</p>
+        {% endfor %}
+    </ul>
+    <div class="pagination">
+        <span class="step-links">
+            {% if services.has_previous %}
+            <a hx-get="{% url 'industry:service_list' church.uuid %}?page=1" hx-target="closest .container"
+                hx-swap="outerHTML">&laquo; first</a>
+            <a hx-get="{% url 'industry:service_list' church.uuid %}?page={{ services.previous_page_number }}"
+                hx-target="closest .container" hx-swap="outerHTML">previous</a>
+            {% endif %}
+            <span class="current">
+                Page {{ services.number }} of {{ services.paginator.num_pages }}.
+            </span>
+            {% if services.has_next %}
+            <a hx-get="{% url 'industry:service_list' church.uuid %}?page={{ services.next_page_number }}"
+                hx-target="closest .container" hx-swap="outerHTML">next</a>
+            <a hx-get="{% url 'industry:service_list' church.uuid %}?page={{ services.paginator.num_pages }}"
+                hx-target="closest .container" hx-swap="outerHTML">last
+                &raquo;</a>
+            {% endif %}
+        </span>
     </div>
-    {% endfor %}
-</ul>
+</div>
 
 <div class="sub">
     <h4 class="sub_head">Members</h4>
+    {% if members %}
     <input class="m_search" type="text" name="q" placeholder="Search Members" maxlength="100" required=""
-        hx-get="{% url 'industry:church_detail' church.uuid %}" hx-target="next .industry-container" hx-swap="outerHTML"
+        hx-get="{% url 'industry:church_detail' church.uuid %}" hx-target="next .container" hx-swap="outerHTML"
         hx-vals='{"type":"member"}' hx-trigger="keyup changed delay:300ms" id="id_search">
     <div class="icon reveal_btn">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -186,6 +212,8 @@
                 d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
         </svg>
     </div>
+    {% endif %}
+
     {% if is_manager %}
     <a title="Add Member" href="{% url 'industry:member_create' church.uuid %}">
         <div class="icon">
@@ -199,20 +227,41 @@
     {% endif %}
 </div>
 
-<ul class="industry-container">
-    {% for member in members %}
-    <li class="industry-card">
-        <div class="card_icon"></div>
-        <p>Name: <b>{{member.full_name}}</b></p>
-        <p>Position: <b>{{member.position}}</b></p>
-    </li>
-    {% empty %}
-    <div class="not_found">
-        <p>No Member found</p>
+<div class="container">
+    <ul class="industry-container">
+        {% for member in members %}
+        <li class="industry-card">
+            <div class="card_icon"></div>
+            <p>Name: <b>{{member.full_name}}</b></p>
+            <p>Position: <b>{{member.position}}</b></p>
+        </li>
+        {% empty %}
+        <div class="not_found">
+            <p>No Member found</p>
+        </div>
+        {% endfor %}
+    </ul>
+    <div class="pagination">
+        <span class="step-links">
+            {% if members.has_previous %}
+            <a hx-get="{% url 'industry:member_list' church.uuid %}?page=1" hx-target="closest .container"
+                hx-swap="outerHTML">&laquo; first</a>
+            <a hx-get="{% url 'industry:member_list' church.uuid %}?page={{ members.previous_page_number }}"
+                hx-target="closest .container" hx-swap="outerHTML">previous</a>
+            {% endif %}
+            <span class="current">
+                Page {{ members.number }} of {{ members.paginator.num_pages }}.
+            </span>
+            {% if members.has_next %}
+            <a hx-get="{% url 'industry:member_list' church.uuid %}?page={{ members.next_page_number }}"
+                hx-target="closest .container" hx-swap="outerHTML">next</a>
+            <a hx-get="{% url 'industry:member_list' church.uuid %}?page={{ members.paginator.num_pages }}"
+                hx-target="closest .container" hx-swap="outerHTML">last
+                &raquo;</a>
+            {% endif %}
+        </span>
     </div>
-    {% endfor %}
-</ul>
-
+</div>
 
 <div class="sub">
     <h4 class="sub_head">Managers</h4>

@@ -1,13 +1,37 @@
-<ul class="industry-container">
-    {% for member in members %}
-    <li class="industry-card">
-        <div class="card_icon"></div>
-        <p>Name: <b>{{member.full_name}}</b></p>
-        <p>Position: <b>{{member.position}}</b></p>
-    </li>
-    {% empty %}
-    <div class="not_found">
-        <p>No Member found</p>
+<div class="container">
+    <ul class="industry-container">
+        {% for member in members %}
+        <li class="industry-card">
+            <div class="card_icon"></div>
+            <p>Name: <b>{{member.full_name}}</b></p>
+            <p>Position: <b>{{member.position}}</b></p>
+        </li>
+        {% empty %}
+        <div class="not_found">
+            <p>No Member found</p>
+        </div>
+        {% endfor %}
+    </ul>
+    {% if church %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if members.has_previous %}
+            <a hx-get="{% url 'industry:member_list' church.uuid %}?page=1" hx-target="closest .container"
+                hx-swap="outerHTML">&laquo; first</a>
+            <a hx-get="{% url 'industry:member_list' church.uuid %}?page={{ members.previous_page_number }}"
+                hx-target="closest .container" hx-swap="outerHTML">previous</a>
+            {% endif %}
+            <span class="current">
+                Page {{ members.number }} of {{ members.paginator.num_pages }}.
+            </span>
+            {% if members.has_next %}
+            <a hx-get="{% url 'industry:member_list' church.uuid %}?page={{ members.next_page_number }}"
+                hx-target="closest .container" hx-swap="outerHTML">next</a>
+            <a hx-get="{% url 'industry:member_list' church.uuid %}?page={{ members.paginator.num_pages }}"
+                hx-target="closest .container" hx-swap="outerHTML">last
+                &raquo;</a>
+            {% endif %}
+        </span>
     </div>
-    {% endfor %}
-</ul>
+    {% endif %}
+</div>

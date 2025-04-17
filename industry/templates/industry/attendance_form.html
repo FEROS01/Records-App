@@ -10,7 +10,7 @@
 <form class="form" action="{% url 'industry:attendance_update' churchrecord.uuid %}" method="post">
     {% csrf_token %}
 
-    <p class="title">Update Attendance</p>
+    <p class="title">Edit Attendance</p>
 
     {{ form.non_field_errors }}
     {% for field in form %}
@@ -23,7 +23,7 @@
         <p>{{field.errors}}</p>
     </div>
     {% endfor %}
-    <button type="submit">Update</button>
+    <button type="submit">Edit</button>
 </form>
 
 <script>

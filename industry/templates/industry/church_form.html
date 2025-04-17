@@ -10,10 +10,10 @@
 <form class="form" action="{% url 'industry:church_update' church.uuid %}" method="post">
     {% csrf_token %}
     <p class="title">Edit Details</p>
+    {{ form.non_field_errors }}
     {% for field in form %}
     <div class="input-container ic1 {% if field.errors %}active{% endif %}">
         {{field}}
-        <!-- <div class="cut"></div> -->
         {{field.label_tag}}
         {% if field.help_text and not field.errors %}
         <p>{{field.help_text}}</p>
@@ -21,7 +21,7 @@
         <p>{{field.errors}}</p>
     </div>
     {% endfor %}
-    <button type="submit">Send</button>
+    <button type="submit">Edit</button>
 </form>
 
 <script>

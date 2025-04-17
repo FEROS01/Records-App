@@ -14,10 +14,13 @@ class Member(models.Model):
 
     @property
     def full_name(self):
-        return f"{self.first_name} {self.last_name}"
+        return f"{self.last_name} {self.first_name}"
 
     def __str__(self):
         return self.full_name
+    
+    class Meta:
+        ordering = ['last_name', 'first_name']
 
 
 class Industry(models.Model):
@@ -76,9 +79,12 @@ class Service(models.Model):
     start_time = models.TimeField(default='00:00')
     end_time = models.TimeField(default='00:00')
     day = models.CharField(choices=DayChoices,default=DayChoices.MON)
-
+    
     def __str__(self):
         return self.name
+    
+    class Meta:
+        ordering = ['name']
 
 class ChurchRecord(models.Model):
     uuid = models.UUIDField(default=uuid4,primary_key=True,editable=False)

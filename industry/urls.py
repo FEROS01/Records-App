@@ -7,6 +7,9 @@ app_name = 'industry'
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
     path('set_tz/', views.set_timezone, name='set_timezone'),
+    path('service_list/<uuid:church_uuid>', views.service_list, name='service_list'),
+    path('member_list/<uuid:church_uuid>', views.member_list, name='member_list'),
+
     #Church Model URLs
     path('church_list/', views.ChurchListView.as_view(), name='church_list'),
     path('church_detail/<uuid:pk>', views.ChurchDetailView.as_view(), name='church_detail'),

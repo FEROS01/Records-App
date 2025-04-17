@@ -1,13 +1,15 @@
 from typing import Any
 
+
 from django.db.models import Q
 from django.urls import reverse
 from django.contrib import messages as Msg
 from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.contrib.auth import get_user_model
-from django.shortcuts import get_object_or_404
 from django.db.models.base import Model as Model
+from django.views.decorators.http import require_GET
+from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http.response import HttpResponse as HttpResponse
 from django.views.generic import (
@@ -52,14 +54,14 @@ class ChurchDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         church = self.get_object()
         context['is_manager'] = self.get_object().is_manager(self.request.user)
-        service_pag = Paginator(church.service.all(),4,orphans=1)
-        member_pag = Paginator(church.members.all(),4,orphans=1)
+        service_pag = Paginator(church.service.all(),4)
+        member_pag = Paginator(church.members.all(),4)
 
         context['services'] = service_pag.get_page(1)
         context['members'] = member_pag.get_page(1)
 
         if self.request.htmx:
-            context = setup_context(self.request, church)
+            context = setup_context(self.request, church, context)
         return context
     
     def get_template_names(self):
@@ -70,6 +72,24 @@ class ChurchDetailView(DetailView):
             elif search_type == 'member':
                 return ['industry/htmx_templates/member_list.html']
         return super().get_template_names()
+
+@require_GET
+def service_list(request,church_uuid):
+    church = get_object_or_404(Church,uuid=church_uuid)
+    service_pag = Paginator(church.service.all(),4)
+    page_num = request.GET['page']
+    services = service_pag.get_page(page_num)
+    context = {'services':services,'church':church}
+    return render(request,'industry/htmx_templates/service_list.html',context)
+
+@require_GET
+def member_list(request,church_uuid):
+    church = get_object_or_404(Church,uuid=church_uuid)
+    member_pag = Paginator(church.members.all(),4)
+    page_num = request.GET['page']
+    members = member_pag.get_page(page_num)
+    context = {'members':members,'church':church}
+    return render(request,'industry/htmx_templates/member_list.html',context)
 
 class ChurchCreateView(LoginRequiredMixin,ChurchMixin,CreateView):
     model = Church
