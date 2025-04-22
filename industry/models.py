@@ -123,6 +123,8 @@ class ChurchRecord(models.Model):
         if self.offering.exists():
             return self.offering.first().currency
 
+    class Meta:
+        ordering = ['service_date','edit_date']
 
 class Offering(models.Model):
     class CurrrencyChoices(models.TextChoices):

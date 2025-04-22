@@ -10,7 +10,10 @@
 <div class="sub">
     <h3 class="sub_head">Church Records</h3>
     <h3 class="sub_head">Filter</h3>
-    <div class="icon">
+    <input class="m_search" type="text" name="q" placeholder="Search Records" maxlength="100" required=""
+        hx-get="{% url 'industry:church_record_list' church.uuid %}?page={{page_obj.number}}"
+        hx-target="next .industry-container" hx-swap="outerHTML" hx-trigger="keyup changed delay:300ms" id="id_search">
+    <div class="icon reveal_btn">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
             <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
             <path
@@ -32,7 +35,7 @@
 </div>
 
 <ul class="industry-container">
-    {% for record in churchrecord_list %}
+    {% for record in page_obj %}
     <li class="industry-card">
         <a href="{% url 'industry:church_record_detail' record.uuid %}">
             <div class="card_icon"></div>
@@ -50,4 +53,29 @@
     </div>
     {% endfor %}
 </ul>
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+        <a href="?page=1">&laquo; first</a>
+        <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">last&raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+<script>
+    let reveal_btns = document.querySelectorAll(".reveal_btn")
+    reveal_btns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+            const input = btn.previousElementSibling;
+            input.classList.toggle("reveal");
+        });
+    })
+</script>
 {% endblock content %}

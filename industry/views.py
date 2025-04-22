@@ -75,21 +75,23 @@ class ChurchDetailView(DetailView):
 
 @require_GET
 def service_list(request,church_uuid):
-    church = get_object_or_404(Church,uuid=church_uuid)
-    service_pag = Paginator(church.service.all(),4)
-    page_num = request.GET['page']
-    services = service_pag.get_page(page_num)
-    context = {'services':services,'church':church}
-    return render(request,'industry/htmx_templates/service_list.html',context)
+    if request.htmx:
+        church = get_object_or_404(Church,uuid=church_uuid)
+        service_pag = Paginator(church.service.all(),4)
+        page_num = request.GET['page']
+        services = service_pag.get_page(page_num)
+        context = {'services':services,'church':church}
+        return render(request,'industry/htmx_templates/service_list.html',context)
 
 @require_GET
 def member_list(request,church_uuid):
-    church = get_object_or_404(Church,uuid=church_uuid)
-    member_pag = Paginator(church.members.all(),4)
-    page_num = request.GET['page']
-    members = member_pag.get_page(page_num)
-    context = {'members':members,'church':church}
-    return render(request,'industry/htmx_templates/member_list.html',context)
+    if request.htmx:
+        church = get_object_or_404(Church,uuid=church_uuid)
+        member_pag = Paginator(church.members.all(),4)
+        page_num = request.GET['page']
+        members = member_pag.get_page(page_num)
+        context = {'members':members,'church':church}
+        return render(request,'industry/htmx_templates/member_list.html',context)
 
 class ChurchCreateView(LoginRequiredMixin,ChurchMixin,CreateView):
     model = Church
@@ -140,19 +142,39 @@ class ChurchManagerUpdateView(ChurchUpdateView):
 
 class ChurchRecordListView(ListView):
     model =  ChurchRecord
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         church = get_object_or_404(Church,uuid=self.church_uuid)
         context['church'] = church
         context['is_manager'] = church.is_manager(self.request.user)
+
+        if self.request.htmx:
+            data = self.request.GET['q']
+            page = self.request.GET['page']
+            
+            records = ChurchRecord.objects.filter(
+                Q(church__uuid=self.church_uuid),
+                Q(service__name__icontains=data)|
+                Q(sermon_title__icontains=data)
+            )
+            if not data:
+                record_pag = Paginator(records,self.paginate_by)
+                records = record_pag.get_page(page)
+            context = {"records":records}
         return context
+
+    def get_template_names(self):
+        if self.request.htmx:
+            return ['industry/htmx_templates/record_list.html']
+        return super().get_template_names()
 
     def get_queryset(self):
         queryset = super().get_queryset()
         self.church_uuid = self.kwargs['pk']
         church_records = queryset.filter(church__uuid=self.church_uuid)
-        return church_records.order_by('service_date')
+        return church_records
 
 class ChurchRecordDetailView(DetailView):
     model =  ChurchRecord
