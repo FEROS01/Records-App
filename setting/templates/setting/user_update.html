@@ -1,17 +1,13 @@
 {% extends 'core/base.html' %}
 
 {% block nav_info %}
-<a class="h2_link" href="{% url 'industry:church_record_detail' churchrecord.uuid %}">
-    <h2>{{church.name}} <br>Record</h2>
-</a>
+<h2>{{user.username}}</h2>
 {% endblock nav_info %}
 
 {% block content %}
-<form class="form" action="{% url 'industry:record_update' churchrecord.uuid %}" method="post">
+<form class="form" action="{% url 'setting:user_update' user.uuid %}" method="post">
     {% csrf_token %}
-
-    <p class="title">Edit Record</p>
-
+    <p class="title">Edit Profile</p>
     {{ form.non_field_errors }}
     {% for field in form %}
     <div class="input-container ic1 {% if field.errors %}active{% endif %}">

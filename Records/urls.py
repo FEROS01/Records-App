@@ -17,9 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from setting.views import UserDetailView
+
+app_name = 'records'
+
 urlpatterns = [
     path('', include('industry.urls')),
     path('core/', include('core.urls')),
     path('admin/', admin.site.urls),
+    path('user_profile/<uuid:pk>', UserDetailView.as_view(),name='user_profile'),
     path('user/', include('authentication.urls')),
+    path('settings/', include('setting.urls')),
 ]

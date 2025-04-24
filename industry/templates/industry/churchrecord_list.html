@@ -9,7 +9,6 @@
 {% block content %}
 <div class="sub">
     <h3 class="sub_head">Church Records</h3>
-    <h3 class="sub_head">Filter</h3>
     <input class="m_search" type="text" name="q" placeholder="Search Records" maxlength="100" required=""
         hx-get="{% url 'industry:church_record_list' church.uuid %}?page={{page_obj.number}}"
         hx-target="next .industry-container" hx-swap="outerHTML" hx-trigger="keyup changed delay:300ms" id="id_search">

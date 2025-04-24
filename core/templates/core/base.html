@@ -54,7 +54,8 @@
                 <div class="nav-links">
                     <a href="#">Dashboard</a>
                     <a href="#">Records</a>
-                    <a href="#">Settings</a>
+                    <a href="{% url 'setting:settings' %}">Settings</a>
+
                     {% if user.is_authenticated %}
                     <form action="{% url 'authentication:logout' %}" method="post">
                         {% csrf_token %}
@@ -63,10 +64,16 @@
                     {% else %}
                     <a href="{% url 'authentication:login' %}">Sign In</a>
                     {% endif %}
+
                 </div>
                 <div class="icons">
                     {% block search %}{% endblock search %}
-                    <span class="icon"></span>
+
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'user_profile' user.uuid %}">
+                        <span class="icon"></span>
+                    </a>
+                    {% endif %}
                     <span class="icon"></span>
                 </div>
             </nav>

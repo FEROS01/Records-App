@@ -33,11 +33,12 @@ class IndexView(TemplateView):
 
 class ChurchListView(ListView):
     model = Church
+    # paginate_by = 10
 
     def get_queryset(self):
         queryset = super().get_queryset()
         if self.request.htmx:
-            data = self.request.GET['q']
+            data = self.request.GET.get('q','')
             return queryset.filter(name__icontains=data)
         return queryset
     
@@ -66,7 +67,7 @@ class ChurchDetailView(DetailView):
     
     def get_template_names(self):
         if self.request.htmx:
-            search_type = self.request.GET['type']
+            search_type = self.request.GET.get('type','service')
             if search_type == 'service':
                 return ['industry/htmx_templates/service_list.html']
             elif search_type == 'member':
@@ -78,7 +79,7 @@ def service_list(request,church_uuid):
     if request.htmx:
         church = get_object_or_404(Church,uuid=church_uuid)
         service_pag = Paginator(church.service.all(),4)
-        page_num = request.GET['page']
+        page_num = request.GET.get('page',1)
         services = service_pag.get_page(page_num)
         context = {'services':services,'church':church}
         return render(request,'industry/htmx_templates/service_list.html',context)
@@ -88,7 +89,7 @@ def member_list(request,church_uuid):
     if request.htmx:
         church = get_object_or_404(Church,uuid=church_uuid)
         member_pag = Paginator(church.members.all(),4)
-        page_num = request.GET['page']
+        page_num = request.GET.get('page',1)
         members = member_pag.get_page(page_num)
         context = {'members':members,'church':church}
         return render(request,'industry/htmx_templates/member_list.html',context)
@@ -131,7 +132,7 @@ class ChurchManagerUpdateView(ChurchUpdateView):
         context['user_list'] = get_user_model().objects.all()
 
         if self.request.htmx:
-            search = self.request.GET['q']
+            search = self.request.GET.get('q','')
             context['user_list'] = search_users(search)
             
         church = self.get_object()
@@ -142,7 +143,7 @@ class ChurchManagerUpdateView(ChurchUpdateView):
 
 class ChurchRecordListView(ListView):
     model =  ChurchRecord
-    paginate_by = 5
+    paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -151,8 +152,8 @@ class ChurchRecordListView(ListView):
         context['is_manager'] = church.is_manager(self.request.user)
 
         if self.request.htmx:
-            data = self.request.GET['q']
-            page = self.request.GET['page']
+            data = self.request.GET.get('q','')
+            page = self.request.GET.get('page',1)
             
             records = ChurchRecord.objects.filter(
                 Q(church__uuid=self.church_uuid),

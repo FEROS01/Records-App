@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'core',
     'industry',
     'authentication',
+    'setting',
     'django_htmx',
     'django.contrib.admin',
     'django.contrib.auth',

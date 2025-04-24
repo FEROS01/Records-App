@@ -60,6 +60,9 @@ class Industry(models.Model):
 
 class Church(Industry):
     head_pastor = models.CharField(_("pastor"),max_length=300)
+    
+    class Meta:
+        ordering = ['name']
 
 class Service(models.Model):
     class DayChoices(models.TextChoices):
@@ -124,7 +127,7 @@ class ChurchRecord(models.Model):
             return self.offering.first().currency
 
     class Meta:
-        ordering = ['service_date','edit_date']
+        ordering = ['-service_date','-edit_date']
 
 class Offering(models.Model):
     class CurrrencyChoices(models.TextChoices):
