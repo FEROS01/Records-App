@@ -1,8 +1,11 @@
 from django.urls import reverse
 from django.contrib import messages as Msg
-from django.views.generic import UpdateView,TemplateView,DetailView
+from django.core.paginator import Paginator
 from django.contrib.auth import get_user_model
+from django.views.decorators.http import require_GET
+from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import UpdateView,TemplateView,DetailView
 
 from industry.mixins import ErrorMixin
 
@@ -25,5 +28,23 @@ class UserDetailView(LoginRequiredMixin,ErrorMixin,DetailView):
     model = get_user_model()
     template_name = 'setting/user_profile.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        churches = self.get_object().church_industry.filter(managers=self.get_object())
+        church_pag = Paginator(churches,4)
+        context['church_list'] = church_pag.get_page(1)
+
+        if self.request.htmx:
+            data = self.request.GET.get('q','')
+            churches = churches.filter(name__icontains=data)
+            context = {'church_list':churches}
+        return context
+
+    def get_template_names(self):
+        if self.request.htmx:
+            return ['industry/htmx_templates/church_list.html']
+        return super().get_template_names()
+
     def test_func(self):
         return self.request.user == self.get_object()
+

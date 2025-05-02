@@ -33,7 +33,6 @@ class IndexView(TemplateView):
 
 class ChurchListView(ListView):
     model = Church
-    # paginate_by = 10
 
     def get_queryset(self):
         queryset = super().get_queryset()

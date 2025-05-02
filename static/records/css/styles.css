@@ -89,6 +89,44 @@ svg {
     margin: 0rem auto;
 }
 
+/* Confirm box */
+.confirm {
+    align-items: center;
+    top: 0;
+    left: 0;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+}
+
+.confirm svg {
+    width: 3rem;
+    fill: var(--a900);
+}
+
+.confirm-message-box {
+    height: fit-content;
+    margin-inline: auto;
+    background-color: var(--a100);
+    padding: 4rem;
+    border-radius: 1.2rem;
+    text-align: center;
+    max-width: 40rem;
+}
+
+.confirm-message-box h1 {
+    font-size: 2.6rem;
+    color: var(--a900);
+    margin-bottom: 1.2rem;
+}
+
+.confirm-message-box p {
+    color: var(--a600);
+    font-size: 1.6rem;
+    margin-bottom: 2.4rem;
+}
+
 /* Pop message */
 .p_box {
     font-size: 1.3rem;
@@ -470,7 +508,9 @@ svg {
     margin-top: 4rem;
 }
 
-.form button {
+.form button,
+.f_button {
+    text-decoration: none;
     background: var(--a700);
     color: white;
     border: none;
@@ -480,7 +520,8 @@ svg {
     transition: all 0.3s;
 }
 
-.form button:hover {
+.form button:hover,
+.f_button:hover {
     background: var(--a900);
     /* Slightly darker for effect */
 }
