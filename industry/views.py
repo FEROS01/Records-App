@@ -33,14 +33,18 @@ class IndexView(TemplateView):
 
 class ChurchListView(ListView):
     model = Church
+    paginate_by = 10
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
-    def get_queryset(self):
-        queryset = super().get_queryset()
         if self.request.htmx:
             data = self.request.GET.get('q','')
-            return queryset.filter(name__icontains=data)
-        return queryset
-    
+            if data:
+                churches = Church.objects.filter(name__icontains=data)
+                context['church_list'] = churches
+        return context    
+
     def get_template_names(self):
         if self.request.htmx:
             return ['industry/htmx_templates/church_list.html']

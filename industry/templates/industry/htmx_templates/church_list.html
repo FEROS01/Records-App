@@ -1,22 +1,47 @@
-<ul class="industry-container">
-    {% for church in church_list %}
+<div class="container">
+    <ul class="industry-container">
+        {% for church in church_list %}
 
-    <li class="industry-card">
+        <li class="industry-card">
 
-        <a href="{% url 'industry:church_detail' church.pk %}">
-            <div class="card_icon"></div>
-        </a>
-        <div class="info">
-            <h2>{{ church.name }}</h2>
-            <p>Head Pastor: <b>{{ church.head_pastor }}</b></p>
-            <p>About: <b>{{ church.about|default:'NIL'|truncatewords:6 }}</b></p>
-            <p>Members: <b>{{ church.number_of_members }}</b></p>
-            <p>Date Established: <b>{{ church.date_established|date:"SHORT_DATE_FORMAT" }}</b></p>
+            <a href="{% url 'industry:church_detail' church.pk %}">
+                <div class="card_icon"></div>
+            </a>
+            <div class="info">
+                <h2>{{ church.name }}</h2>
+                <p>Head Pastor: <b>{{ church.head_pastor }}</b></p>
+                <p>About: <b>{{ church.about|default:'NIL'|truncatewords:6 }}</b></p>
+                <p>Members: <b>{{ church.number_of_members }}</b></p>
+                <p>Date Established: <b>{{ church.date_established|date:"SHORT_DATE_FORMAT" }}</b></p>
+            </div>
+        </li>
+        {% empty %}
+        <div class="not_found">
+            <p>No Church found</p>
         </div>
-    </li>
-    {% empty %}
-    <div class="not_found">
-        <p>No Church found</p>
+        {% endfor %}
+    </ul>
+
+    {% if page_obj %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+            <a hx-get="{% url 'user_profile' user.uuid %}?page=1" hx-target="closest .container"
+                hx-swap="outerHTML">&laquo; first</a>
+            <a hx-get="{% url 'user_profile' user.uuid %}?page={{ page_obj.previous_page_number }}"
+                hx-target="closest .container" hx-swap="outerHTML">previous</a>
+            {% endif %}
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+            {% if page_obj.has_next %}
+            <a hx-get="{% url 'user_profile' user.uuid %}?page={{ page_obj.next_page_number }}"
+                hx-target="closest .container" hx-swap="outerHTML">next</a>
+            <a hx-get="{% url 'user_profile' user.uuid %}?page={{ page_obj.paginator.num_pages }}"
+                hx-target="closest .container" hx-swap="outerHTML">last
+                &raquo;</a>
+            {% endif %}
+        </span>
     </div>
-    {% endfor %}
-</ul>
+    {% endif %}
+</div>

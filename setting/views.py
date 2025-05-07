@@ -30,14 +30,21 @@ class UserDetailView(LoginRequiredMixin,ErrorMixin,DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        churches = self.get_object().church_industry.filter(managers=self.get_object())
+        churches = self.get_object().church_industry.all()
         church_pag = Paginator(churches,4)
-        context['church_list'] = church_pag.get_page(1)
+        church_list = church_pag.get_page(1)
 
         if self.request.htmx:
             data = self.request.GET.get('q','')
-            churches = churches.filter(name__icontains=data)
-            context = {'church_list':churches}
+            page = self.request.GET.get('page',1)
+
+            if data:
+                church_list = churches.filter(name__icontains=data)
+            else:
+                church_list = church_pag.get_page(page)
+                context['page_obj'] = church_list
+        
+        context['church_list'] = church_list
         return context
 
     def get_template_names(self):
@@ -47,4 +54,3 @@ class UserDetailView(LoginRequiredMixin,ErrorMixin,DetailView):
 
     def test_func(self):
         return self.request.user == self.get_object()
-

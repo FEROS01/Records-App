@@ -10,7 +10,7 @@
         </svg>
     </div>
     <input type="text" name="q" placeholder="Search" maxlength="100" required="" id="id_search"
-        hx-get="{% url 'industry:church_list' %}" hx-target="ul" hx-swap="outerHTML"
+        hx-get="{% url 'industry:church_list' %}" hx-target=".container" hx-swap="outerHTML"
         hx-trigger="keyup changed delay:300ms">
 </div>
 {% endblock search_box %}
@@ -42,28 +42,48 @@
         </div>
     </a>
 </div>
-<ul class="industry-container">
-    {% for church in church_list %}
 
-    <li class="industry-card">
+<div class="container">
+    <ul class="industry-container">
+        {% for church in page_obj %}
 
-        <a href="{% url 'industry:church_detail' church.pk %}">
-            <div class="card_icon"></div>
-        </a>
-        <div class="info">
-            <h2>{{ church.name }}</h2>
-            <p>Head Pastor: <b>{{ church.head_pastor }}</b></p>
-            <p>About: <b>{{ church.about|default:'NIL'|truncatewords:6 }}</b></p>
-            <p>Members: <b>{{ church.number_of_members }}</b></p>
-            <p>Date Established: <b>{{ church.date_established|date:"SHORT_DATE_FORMAT" }}</b></p>
+        <li class="industry-card">
+
+            <a href="{% url 'industry:church_detail' church.pk %}">
+                <div class="card_icon"></div>
+            </a>
+            <div class="info">
+                <h2>{{ church.name }}</h2>
+                <p>Head Pastor: <b>{{ church.head_pastor }}</b></p>
+                <p>About: <b>{{ church.about|default:'NIL'|truncatewords:6 }}</b></p>
+                <p>Members: <b>{{ church.number_of_members }}</b></p>
+                <p>Date Established: <b>{{ church.date_established|date:"SHORT_DATE_FORMAT" }}</b></p>
+            </div>
+        </li>
+        {% empty %}
+        <div class="not_found">
+            <p>No Church found</p>
         </div>
-    </li>
-    {% empty %}
-    <div class="not_found">
-        <p>No Church found</p>
+        {% endfor %}
+    </ul>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+            {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last&raquo;</a>
+            {% endif %}
+        </span>
     </div>
-    {% endfor %}
-</ul>
+</div>
+
 
 <script>
     let searchDiv = document.querySelector(".search_box")
