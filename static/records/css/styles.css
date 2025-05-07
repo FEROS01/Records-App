@@ -89,7 +89,68 @@ svg {
     margin: 0rem auto;
 }
 
+
 /* Confirm box */
+.confirm_box {
+    background-color: var(--a50);
+    border: 0.1rem solid var(--a300);
+    padding: 2.4rem;
+    border-radius: 1.2rem;
+    max-width: 40rem;
+    margin: auto;
+    text-align: center;
+}
+
+.confirm_box h3 {
+    color: var(--a900);
+    margin-bottom: 0.8rem;
+    font-size: 2rem;
+}
+
+.confirm_box p {
+    color: var(--a500);
+    font-size: 1.4rem;
+    margin-bottom: 2rem;
+}
+
+.confirm_box .action {
+    display: flex;
+    justify-content: center;
+    gap: 1.6rem;
+}
+
+.confirm_box button {
+    padding: 1rem 2rem;
+    border-radius: 8rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.4rem;
+}
+
+.confirm_box button a {
+    all: unset;
+}
+
+.confirm_box button:first-child {
+    background-color: var(--a200);
+    color: var(--a800);
+}
+
+.confirm_box button:first-child:hover {
+    background-color: var(--a300);
+}
+
+.confirm_box button:last-child {
+    background-color: var(--a700);
+    color: white;
+}
+
+.confirm_box button:last-child:hover {
+    background-color: var(--a900);
+}
+
 .confirm {
     align-items: center;
     top: 0;
@@ -103,28 +164,6 @@ svg {
 .confirm svg {
     width: 3rem;
     fill: var(--a900);
-}
-
-.confirm-message-box {
-    height: fit-content;
-    margin-inline: auto;
-    background-color: var(--a100);
-    padding: 4rem;
-    border-radius: 1.2rem;
-    text-align: center;
-    max-width: 40rem;
-}
-
-.confirm-message-box h1 {
-    font-size: 2.6rem;
-    color: var(--a900);
-    margin-bottom: 1.2rem;
-}
-
-.confirm-message-box p {
-    color: var(--a600);
-    font-size: 1.6rem;
-    margin-bottom: 2.4rem;
 }
 
 /* Pop message */
@@ -512,6 +551,7 @@ svg {
 .f_button {
     text-decoration: none;
     background: var(--a700);
+    font-weight: 600;
     color: white;
     border: none;
     padding: 1rem 2rem;
@@ -592,10 +632,10 @@ option {
     color: var(--a900);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 604rem) {
     select {
-        font-size: 14px;
-        padding: 10px;
+        font-size: 14rem;
+        padding: 14rem;
     }
 }
 

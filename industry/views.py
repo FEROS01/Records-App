@@ -144,6 +144,20 @@ class ChurchManagerUpdateView(ChurchUpdateView):
 
         return context
 
+class ChurchDeleteView(LoginRequiredMixin,ErrorMixin,DeleteView):
+    model = Church
+
+    def get_success_url(self):
+        Msg.success(self.request,f'Successfully deleted {self.get_object().name}')
+        return reverse('industry:church_list')
+    
+    def get_template_names(self):
+        return ['industry/htmx_templates/church_delete.html']
+
+    def test_func(self):
+        church = self.get_object()
+        return church.is_manager(self.request.user)
+
 class ChurchRecordListView(ListView):
     model =  ChurchRecord
     paginate_by = 10
@@ -227,6 +241,20 @@ class ChurchRecordUpdateView(
         self.church = church
         return church.is_manager(self.request.user)
 
+class ChurchRecordDeleteView(LoginRequiredMixin,ErrorMixin,DeleteView):
+    model = ChurchRecord
+
+    def get_success_url(self):
+        Msg.success(self.request,'Successfully deleted record')
+        return reverse('industry:church_record_list',kwargs={'pk':self.object.church.uuid})
+    
+    def get_template_names(self):
+        return ['industry/htmx_templates/record_delete.html']
+
+    def test_func(self):
+        church = self.get_object().church
+        return church.is_manager(self.request.user)
+
 class AttendanceUpdateView(LoginRequiredMixin,ErrorMixin,UpdateView):
     model =  ChurchRecord
     template_name = 'industry/attendance_form.html'
@@ -292,24 +320,16 @@ class OfferingCreateView(
 
 class OfferingDeleteView(LoginRequiredMixin,ErrorMixin,DeleteView):
     model = Offering
-    template_name = 'core/confirm_delete.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        record_uuid = self.kwargs['pk2']
-        church_record = get_object_or_404(ChurchRecord,uuid=record_uuid)
-        context['record'] = church_record
-        return context
+    template_name = 'industry/htmx_templates/offering_delete.html'
 
     def get_success_url(self):
-        record_uuid = self.kwargs['pk2']
+        record_uuid = self.object.record.uuid
+        Msg.success(self.request,f'Successfully deleted {self.object.denomination} {self.object.currency}')
         return reverse(
             'industry:church_record_detail',kwargs={'pk':record_uuid})
-    
+
     def test_func(self):
-        record_uuid = self.kwargs['pk2']
-        record = get_object_or_404(ChurchRecord,uuid=record_uuid)
-        church = record.church
+        church = self.get_object().record.church
         user = self.request.user
         return church.is_manager(user)
 

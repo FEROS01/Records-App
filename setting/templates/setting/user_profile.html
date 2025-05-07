@@ -77,7 +77,7 @@
 </div>
 
 <div class="sub">
-    <h2 class="sub_head">Church</h2>
+    <h2 class="sub_head">Churches you are Managing</h2>
     {% if church_list %}
     <input class="m_search" type="text" name="q" placeholder="Search Services" maxlength="100" required=""
         hx-get="{% url 'user_profile' object.uuid %}" hx-target=".container" hx-swap="outerHTML"

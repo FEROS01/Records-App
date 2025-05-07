@@ -9,6 +9,9 @@ urlpatterns = [
     path('set_tz/', views.set_timezone, name='set_timezone'),
     path('service_list/<uuid:church_uuid>', views.service_list, name='service_list'),
     path('member_list/<uuid:church_uuid>', views.member_list, name='member_list'),
+    path('church_delete/<uuid:pk>', views.ChurchDeleteView.as_view(), name='church_delete'),
+    path('record_delete/<uuid:pk>', views.ChurchRecordDeleteView.as_view(), name='record_delete'),
+    path('offering_delete/<uuid:pk>', views.OfferingDeleteView.as_view(), name='offering_delete'),
 
     #Church Model URLs
     path('church_list/', views.ChurchListView.as_view(), name='church_list'),
@@ -27,7 +30,6 @@ urlpatterns = [
     #Offering Model URLs
     path('offering_update/<uuid:pk>', views.OfferingUpdateView.as_view(), name='offering_update'),
     path('offering_create/<uuid:pk>', views.OfferingCreateView.as_view(), name='offering_create'),
-    path('offering_confrim_delete/<uuid:pk>/<uuid:pk2>', views.OfferingDeleteView.as_view(), name='offering_delete'),
 
     #Service Model URLs
     path('service_create/<uuid:pk>', views.ServiceCreateView.as_view(), name='service_create'),
