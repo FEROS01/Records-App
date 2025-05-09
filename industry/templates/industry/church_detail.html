@@ -245,6 +245,8 @@
             <div class="card_icon"></div>
             <p>Name: <b>{{member.full_name}}</b></p>
             <p>Position: <b>{{member.position}}</b></p>
+            <button hx-get="{% url 'industry:member_delete' member.pk %}" hx-target=".main" hx-swap="afterbegin"
+                class="remove">Remove</button>
         </li>
         {% empty %}
         <div class="not_found">

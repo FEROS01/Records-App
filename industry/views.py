@@ -146,13 +146,18 @@ class ChurchManagerUpdateView(ChurchUpdateView):
 
 class ChurchDeleteView(LoginRequiredMixin,ErrorMixin,DeleteView):
     model = Church
+    template_name = 'industry/htmx_templates/confirm_delete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        url = reverse('industry:church_delete',kwargs={'pk':self.get_object().pk})
+        context['url'] = url
+        context['info'] = f'Are you sure you want to delete {self.get_object().name}?'
+        return context
 
     def get_success_url(self):
         Msg.success(self.request,f'Successfully deleted {self.get_object().name}')
         return reverse('industry:church_list')
-    
-    def get_template_names(self):
-        return ['industry/htmx_templates/church_delete.html']
 
     def test_func(self):
         church = self.get_object()
@@ -243,14 +248,19 @@ class ChurchRecordUpdateView(
 
 class ChurchRecordDeleteView(LoginRequiredMixin,ErrorMixin,DeleteView):
     model = ChurchRecord
+    template_name = 'industry/htmx_templates/confirm_delete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        url = reverse('industry:record_delete',kwargs={'pk':self.get_object().pk})
+        context['url'] = url
+        context['info'] = f'Are you sure you want to delete record from {self.get_object().service.name} service?'
+        return context
 
     def get_success_url(self):
         Msg.success(self.request,'Successfully deleted record')
         return reverse('industry:church_record_list',kwargs={'pk':self.object.church.uuid})
     
-    def get_template_names(self):
-        return ['industry/htmx_templates/record_delete.html']
-
     def test_func(self):
         church = self.get_object().church
         return church.is_manager(self.request.user)
@@ -320,7 +330,14 @@ class OfferingCreateView(
 
 class OfferingDeleteView(LoginRequiredMixin,ErrorMixin,DeleteView):
     model = Offering
-    template_name = 'industry/htmx_templates/offering_delete.html'
+    template_name = 'industry/htmx_templates/confirm_delete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        url = reverse('industry:offering_delete',kwargs={'pk':self.get_object().pk})
+        context['url'] = url
+        context['info'] = f'Are you sure you want to remove {self.get_object().denomination}?'
+        return context
 
     def get_success_url(self):
         record_uuid = self.object.record.uuid
@@ -370,6 +387,32 @@ class ServiceUpdateView(LoginRequiredMixin,ErrorMixin,ServiceMixin,UpdateView):
 class ServiceDetailView(DetailView):
     model = Service
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        church = self.get_object().church
+        context['is_manager'] = church.is_manager(self.request.user)
+        return context
+
+class ServiceDeleteView(LoginRequiredMixin,ErrorMixin,DeleteView):
+    model = Service
+    template_name = 'industry/htmx_templates/confirm_delete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        url = reverse('industry:service_delete',kwargs={'pk':self.get_object().pk})
+        context['url'] = url
+        context['info'] = f'Are you sure you want to delete {self.get_object().name} service?'
+        return context
+
+    def get_success_url(self):
+        Msg.success(self.request,f'Successfully deleted {self.get_object().name}')
+        church_uuid = self.get_object().church.uuid
+        return reverse('industry:church_detail',kwargs={'pk':church_uuid})
+    
+    def test_func(self):
+        church = self.get_object().church
+        return church.is_manager(self.request.user)
+
 class MemberCreateView(LoginRequiredMixin,ErrorMixin,CreateView):
     model = Member
     template_name = 'industry/member_create.html'
@@ -397,3 +440,23 @@ class MemberCreateView(LoginRequiredMixin,ErrorMixin,CreateView):
         church = get_object_or_404(Church,uuid=self.kwargs['pk'])
         user = self.request.user
         return church.is_manager(user)
+
+class MemberDeleteView(LoginRequiredMixin,ErrorMixin,DeleteView):
+    model = Member
+    template_name = 'industry/htmx_templates/confirm_delete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        url = reverse('industry:member_delete',kwargs={'pk':self.get_object().pk})
+        context['url'] = url
+        context['info'] = f'Are you sure you want to remove {self.get_object().full_name}?'
+        return context
+
+    def get_success_url(self):
+        Msg.success(self.request,f'Successfully deleted {self.get_object().full_name}')
+        church_uuid = self.church.uuid
+        return reverse('industry:church_detail',kwargs={'pk':church_uuid})
+
+    def test_func(self):
+        self.church = self.get_object().church_industry.first()
+        return self.church.is_manager(self.request.user)

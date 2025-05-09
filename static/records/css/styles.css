@@ -432,9 +432,14 @@ svg {
 
 .industry-card {
     list-style: none;
+    height: fit-content;
     background-color: var(--a100);
     padding: 1.5rem;
     border-radius: 1rem;
+}
+
+.industry-card:hover button.remove {
+    display: block;
 }
 
 .industry-card .card_icon,
@@ -470,17 +475,9 @@ svg {
 }
 
 .industry-card button {
-    background-color: var(--Secondary_color);
-    color: var(--Primary_text_color);
-    padding: 1rem;
-    border: none;
-    border-radius: 0.5rem;
-    cursor: pointer;
+    display: none;
     margin-top: 1rem;
-}
-
-.industry-card button:hover {
-    background-color: #45a049;
+    width: 100%;
 }
 
 .info_card {
@@ -548,7 +545,8 @@ svg {
 }
 
 .form button,
-.f_button {
+.f_button,
+.industry-card button {
     text-decoration: none;
     background: var(--a700);
     font-weight: 600;
@@ -561,7 +559,8 @@ svg {
 }
 
 .form button:hover,
-.f_button:hover {
+.f_button:hover,
+.industry-card button:hover {
     background: var(--a900);
     /* Slightly darker for effect */
 }

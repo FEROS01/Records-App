@@ -4,16 +4,15 @@
         <h3>Are you sure you want to delete this record for <b>{{churchrecord.service.name}}</b> service?</h3>
         <p>This action is irreversible</p>
         <div class="action">
-            <button id="cancel">Cancel</button>
+            <button onclick="cancelDelete()">Cancel</button>
             <button type="submit">Confirm</button>
         </div>
     </form>
     <script>
-        let cancelButton = document.getElementById('cancel')
-        cancelButton.addEventListener('click', () => {
+        function cancelDelete() {
             let confirmBox = document.getElementById('confirm_box')
             confirmBox.remove()
             confirmBox = null
-        })
+        }
     </script>
 </div>

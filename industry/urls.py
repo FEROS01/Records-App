@@ -12,6 +12,8 @@ urlpatterns = [
     path('church_delete/<uuid:pk>', views.ChurchDeleteView.as_view(), name='church_delete'),
     path('record_delete/<uuid:pk>', views.ChurchRecordDeleteView.as_view(), name='record_delete'),
     path('offering_delete/<uuid:pk>', views.OfferingDeleteView.as_view(), name='offering_delete'),
+    path('service_delete/<uuid:pk>', views.ServiceDeleteView.as_view(), name='service_delete'),
+    path('member_delete/<int:pk>', views.MemberDeleteView.as_view(), name='member_delete'),
 
     #Church Model URLs
     path('church_list/', views.ChurchListView.as_view(), name='church_list'),

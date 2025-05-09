@@ -1,7 +1,7 @@
 <div id="confirm_box" class="search_box active">
-    <form class="confirm_box" method="post" action="{% url 'industry:offering_delete' offering.uuid %}">
+    <form method="post" action="{% url 'industry:service_delete' service.uuid %}" class="confirm_box">
         {% csrf_token %}
-        <h3>Are you sure you want to delete <b>{{object.denomination}}</b></h3>
+        <h3>Are you sure you want to delete <b>{{service.name}}</b> service?</h3>
         <p>This action is irreversible</p>
         <div class="action">
             <button onclick="cancelDelete()">Cancel</button>
