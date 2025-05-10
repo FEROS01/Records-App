@@ -32,40 +32,42 @@
     </a>
     {% endif %}
 </div>
-
-<ul class="industry-container">
-    {% for record in page_obj %}
-    <li class="industry-card">
-        <a href="{% url 'industry:church_record_detail' record.uuid %}">
-            <div class="card_icon"></div>
-        </a>
-        <div class="info">
-            <h2>{{record.service.name}}</h2>
-            <p>Title: <b>{{record.sermon_title}}</b></p>
-            <p>Day: <b>{{record.service.day}}</b></p>
-            <p>Date: <b>{{record.service_date|date}}</b></p>
+<div class="container">
+    <ul class="industry-container">
+        {% for record in page_obj %}
+        <li class="industry-card">
+            <a href="{% url 'industry:church_record_detail' record.uuid %}">
+                <div class="card_icon"></div>
+            </a>
+            <div class="info">
+                <h2>{{record.service.name}}</h2>
+                <p>Title: <b>{{record.sermon_title}}</b></p>
+                <p>Day: <b>{{record.service.day}}</b></p>
+                <p>Date: <b>{{record.service_date|date}}</b></p>
+            </div>
+        </li>
+        {% empty %}
+        <div class="not_found">
+            <p>No Record found</p>
         </div>
-    </li>
-    {% empty %}
-    <div class="not_found">
-        <p>No Record found</p>
-    </div>
-    {% endfor %}
-</ul>
-<div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-        <a href="?page=1">&laquo; first</a>
-        <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-        {% endif %}
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        {% endfor %}
+    </ul>
+
+    <div class="pagination">
+        <span class="step-links" hx-target="closest .container" hx-swap="outerHTML">
+            {% if page_obj.has_previous %}
+            <a hx-get="?page=1">&laquo; first</a>
+            <a hx-get="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+            {% if page_obj.has_next %}
+            <a hx-get="?page={{ page_obj.next_page_number }}">next</a>
+            <a hx-get="?page={{ page_obj.paginator.num_pages }}">last&raquo;</a>
+            {% endif %}
         </span>
-        {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">next</a>
-        <a href="?page={{ page_obj.paginator.num_pages }}">last&raquo;</a>
-        {% endif %}
-    </span>
+    </div>
 </div>
 
 <script>

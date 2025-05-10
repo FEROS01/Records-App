@@ -15,21 +15,18 @@
     </ul>
     {% if church %}
     <div class="pagination">
-        <span class="step-links">
+        <span class="step-links" hx-target="closest .container" hx-swap="outerHTML">
             {% if members.has_previous %}
-            <a hx-get="{% url 'industry:member_list' church.uuid %}?page=1" hx-target="closest .container"
-                hx-swap="outerHTML">&laquo; first</a>
-            <a hx-get="{% url 'industry:member_list' church.uuid %}?page={{ members.previous_page_number }}"
-                hx-target="closest .container" hx-swap="outerHTML">previous</a>
+            <a hx-get="{% url 'industry:member_list' church.uuid %}?page=1">&laquo; first</a>
+            <a
+                hx-get="{% url 'industry:member_list' church.uuid %}?page={{ members.previous_page_number }}">previous</a>
             {% endif %}
             <span class="current">
                 Page {{ members.number }} of {{ members.paginator.num_pages }}.
             </span>
             {% if members.has_next %}
-            <a hx-get="{% url 'industry:member_list' church.uuid %}?page={{ members.next_page_number }}"
-                hx-target="closest .container" hx-swap="outerHTML">next</a>
-            <a hx-get="{% url 'industry:member_list' church.uuid %}?page={{ members.paginator.num_pages }}"
-                hx-target="closest .container" hx-swap="outerHTML">last
+            <a hx-get="{% url 'industry:member_list' church.uuid %}?page={{ members.next_page_number }}">next</a>
+            <a hx-get="{% url 'industry:member_list' church.uuid %}?page={{ members.paginator.num_pages }}">last
                 &raquo;</a>
             {% endif %}
         </span>

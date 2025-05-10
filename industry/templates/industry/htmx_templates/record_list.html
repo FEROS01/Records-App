@@ -1,19 +1,39 @@
-<ul class="industry-container">
-    {% for record in records %}
-    <li class="industry-card">
-        <a href="{% url 'industry:church_record_detail' record.uuid %}">
-            <div class="card_icon"></div>
-        </a>
-        <div class="info">
-            <h2>{{record.service.name}}</h2>
-            <p>Title: <b>{{record.sermon_title}}</b></p>
-            <p>Day: <b>{{record.service.day}}</b></p>
-            <p>Date: <b>{{record.service_date|date}}</b></p>
+<div class="container">
+    <ul class="industry-container">
+        {% for record in records %}
+        <li class="industry-card">
+            <a href="{% url 'industry:church_record_detail' record.uuid %}">
+                <div class="card_icon"></div>
+            </a>
+            <div class="info">
+                <h2>{{record.service.name}}</h2>
+                <p>Title: <b>{{record.sermon_title}}</b></p>
+                <p>Day: <b>{{record.service.day}}</b></p>
+                <p>Date: <b>{{record.service_date|date}}</b></p>
+            </div>
+        </li>
+        {% empty %}
+        <div class="not_found">
+            <p>No Record found</p>
         </div>
-    </li>
-    {% empty %}
-    <div class="not_found">
-        <p>No Record found</p>
+        {% endfor %}
+    </ul>
+
+    {% if page %}
+    <div class="pagination">
+        <span class="step-links" hx-target="closest .container" hx-swap="outerHTML">
+            {% if records.has_previous %}
+            <a hx-get="?page=1">&laquo; first</a>
+            <a hx-get="?page={{ records.previous_page_number }}">previous</a>
+            {% endif %}
+            <span class="current">
+                Page {{ records.number }} of {{ records.paginator.num_pages }}.
+            </span>
+            {% if records.has_next %}
+            <a hx-get="?page={{ records.next_page_number }}">next</a>
+            <a hx-get="?page={{ records.paginator.num_pages }}">last&raquo;</a>
+            {% endif %}
+        </span>
     </div>
-    {% endfor %}
-</ul>
+    {% endif %}
+</div>

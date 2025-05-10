@@ -176,16 +176,20 @@ class ChurchRecordListView(ListView):
         if self.request.htmx:
             data = self.request.GET.get('q','')
             page = self.request.GET.get('page',1)
+            context = {'page':False}
             
             records = ChurchRecord.objects.filter(
                 Q(church__uuid=self.church_uuid),
                 Q(service__name__icontains=data)|
                 Q(sermon_title__icontains=data)
             )
+    
             if not data:
                 record_pag = Paginator(records,self.paginate_by)
                 records = record_pag.get_page(page)
-            context = {"records":records}
+                context['page'] = True
+
+            context["records"] = records
         return context
 
     def get_template_names(self):
@@ -220,7 +224,7 @@ class ChurchRecordCreateView(
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('industry:church_record_list',kwargs={'pk':self.kwargs['pk']})
+        return reverse('industry:church_record_detail',kwargs={'pk':self.object.uuid})
     
     def test_func(self):
         church = get_object_or_404(Church,uuid=self.kwargs['pk'])
@@ -391,7 +395,30 @@ class ServiceDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         church = self.get_object().church
         context['is_manager'] = church.is_manager(self.request.user)
+        service_records = self.get_object().service_record.all()
+        record_pag = Paginator(service_records,4)
+        records = record_pag.get_page(1)
+    
+        if self.request.htmx:
+                data = self.request.GET.get('q','')
+                page = self.request.GET.get('page',1)
+                context['page'] = True
+
+                if data:
+                    records = service_records.filter(
+                        sermon_title__icontains=data
+                    )
+                    context['page'] = False
+                else:
+                    records = record_pag.get_page(page)
+        
+        context['records'] = records
         return context
+    
+    def get_template_names(self):
+        if self.request.htmx:
+            return ['industry/htmx_templates/record_list.html']
+        return super().get_template_names()
 
 class ServiceDeleteView(LoginRequiredMixin,ErrorMixin,DeleteView):
     model = Service

@@ -130,21 +130,17 @@
 
 
     <div class="pagination">
-        <span class="step-links">
+        <span class="step-links" hx-target="closest .container" hx-swap="outerHTML">
             {% if church_list.has_previous %}
-            <a hx-get="{% url 'user_profile' object.uuid %}?page=1" hx-target="closest .container"
-                hx-swap="outerHTML">&laquo; first</a>
-            <a hx-get="{% url 'user_profile' object.uuid %}?page={{ church_list.previous_page_number }}"
-                hx-target="closest .container" hx-swap="outerHTML">previous</a>
+            <a hx-get="?page=1">&laquo; first</a>
+            <a hx-get="?page={{ church_list.previous_page_number }}">previous</a>
             {% endif %}
             <span class="current">
                 Page {{ church_list.number }} of {{ church_list.paginator.num_pages }}.
             </span>
             {% if church_list.has_next %}
-            <a hx-get="{% url 'user_profile' object.uuid %}?page={{ church_list.next_page_number }}"
-                hx-target="closest .container" hx-swap="outerHTML">next</a>
-            <a hx-get="{% url 'user_profile' object.uuid %}?page={{ church_list.paginator.num_pages }}"
-                hx-target="closest .container" hx-swap="outerHTML">last
+            <a hx-get="?page={{ church_list.next_page_number }}">next</a>
+            <a hx-get="?page={{ church_list.paginator.num_pages }}">last
                 &raquo;</a>
             {% endif %}
         </span>
