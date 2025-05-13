@@ -1,6 +1,8 @@
 from django.urls import reverse
 from django.shortcuts import redirect, get_object_or_404
 from django.http import HttpResponseRedirect as Redirect
+from django.http.response import HttpResponse, Http404
+
 
 
 from .forms import ChurchRecordForm
@@ -52,7 +54,7 @@ class RecordMixin:
 class ServiceMixin:
     '''Set the fields required for the Service Form and edit the success url'''
 
-    fields = ('name','description','day','start_time','end_time')
+    fields = ('name','description','day','start_time','end_time','visible','special')
 
     def get_success_url(self):
         uuid = self.object.uuid
@@ -65,4 +67,5 @@ class ErrorMixin:
     def dispatch(self, request, *args, **kwargs):
         if self.test_func():
             return super().dispatch(request, *args, **kwargs)
-        return Redirect(reverse('core:restricted'))
+        # return Redirect(reverse('core:restricted'))
+        raise Http404

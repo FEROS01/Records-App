@@ -8,7 +8,7 @@ def search_users(search):
         Q(username__icontains=search)
     )
 
-def setup_context(request, church, main_context):
+def setup_context(request, members, services, main_context):
     search_type = request.GET['type']
     data = request.GET['q']
     context = {'church':''}
@@ -17,10 +17,9 @@ def setup_context(request, church, main_context):
         return main_context
 
     if search_type == 'service':
-        services = church.service.filter(name__icontains=data)
-        context['services'] = services
+        context['services'] = services.filter(name__icontains=data)
     elif search_type == 'member':
-        members = church.members.filter(
+        members = members.filter(
             Q(first_name__icontains=data)|
             Q(last_name__icontains=data)
         )

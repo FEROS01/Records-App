@@ -333,8 +333,8 @@ svg {
     justify-content: center;
     border-radius: 50%;
     border: 0.1rem solid var(--a300);
-    width: 2.4rem;
-    height: 2.4rem;
+    width: 2.6rem;
+    height: 2.6rem;
     margin: 0.5rem;
     padding: 0.2rem;
     background-color: var(--a200);
@@ -342,14 +342,18 @@ svg {
 
 .icon svg {
     cursor: pointer;
-    width: 1.3rem;
+    width: 1.5rem;
     fill: var(--a500);
-    height: 1.3rem;
+    height: 1.5rem;
 }
 
 .icon svg:hover {
     fill: var(--a600);
     transform: scale(1.2);
+}
+
+.icon #invisible {
+    display: none;
 }
 
 .icons {
@@ -431,6 +435,7 @@ svg {
 }
 
 .industry-card {
+    position: relative;
     list-style: none;
     height: fit-content;
     background-color: var(--a100);
@@ -440,6 +445,22 @@ svg {
 
 .industry-card:hover button.remove {
     display: block;
+}
+
+.industry-card .eye {
+    display: flex;
+    padding: 0.5rem;
+    right: 1.5rem;
+    width: fit-content;
+    position: absolute;
+    background: #e7e7e77a;
+    border-radius: 50%;
+}
+
+.eye svg {
+    fill: var(--a600);
+    width: 2rem;
+    height: 2rem;
 }
 
 .industry-card .card_icon,

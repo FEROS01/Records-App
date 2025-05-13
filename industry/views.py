@@ -10,8 +10,9 @@ from django.contrib.auth import get_user_model
 from django.db.models.base import Model as Model
 from django.views.decorators.http import require_GET
 from django.shortcuts import get_object_or_404, render
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http.response import HttpResponse as HttpResponse
+from django.http.response import HttpResponse, Http404
 from django.views.generic import (
     TemplateView, ListView, DetailView, UpdateView, CreateView, DeleteView)
 
@@ -57,15 +58,23 @@ class ChurchDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         church = self.get_object()
-        context['is_manager'] = self.get_object().is_manager(self.request.user)
-        service_pag = Paginator(church.service.all(),4)
-        member_pag = Paginator(church.members.all(),4)
+        is_manager = self.get_object().is_manager(self.request.user)
+        members = church.members.all()
+        services = church.service.all()
+
+        if not is_manager:
+            services = services.exclude(visible=False)
+        
+        member_pag = Paginator(members,4)
+        service_pag = Paginator(services,4)
+        
 
         context['services'] = service_pag.get_page(1)
         context['members'] = member_pag.get_page(1)
 
         if self.request.htmx:
-            context = setup_context(self.request, church, context)
+            context = setup_context(self.request, members, services, context)
+        context['is_manager'] = is_manager
         return context
     
     def get_template_names(self):
@@ -153,6 +162,7 @@ class ChurchDeleteView(LoginRequiredMixin,ErrorMixin,DeleteView):
         url = reverse('industry:church_delete',kwargs={'pk':self.get_object().pk})
         context['url'] = url
         context['info'] = f'Are you sure you want to delete {self.get_object().name}?'
+        context['add_info'] = 'This action is irreversible'
         return context
 
     def get_success_url(self):
@@ -341,6 +351,7 @@ class OfferingDeleteView(LoginRequiredMixin,ErrorMixin,DeleteView):
         url = reverse('industry:offering_delete',kwargs={'pk':self.get_object().pk})
         context['url'] = url
         context['info'] = f'Are you sure you want to remove {self.get_object().denomination}?'
+        context['add_info'] = 'This action is irreversible'
         return context
 
     def get_success_url(self):
@@ -440,6 +451,28 @@ class ServiceDeleteView(LoginRequiredMixin,ErrorMixin,DeleteView):
         church = self.get_object().church
         return church.is_manager(self.request.user)
 
+@login_required
+def service_visibility(request,pk):
+    service = get_object_or_404(Service,uuid=pk)
+    context = {}
+    church = service.church
+
+    if not church.is_manager(request.user):
+        return redirect('core:restricted')
+
+    elif request.method == 'GET':
+        url = reverse('industry:service_visibility',kwargs={'pk':service.pk})
+        context['url'] = url
+        context['info'] = f'Are you sure you want to hide {service.name} service?'
+        context['add_info'] = 'Users will not be able view this service'
+        return render(request,'industry/htmx_templates/confirm_delete.html',context=context)
+    
+    elif request.method == 'POST':
+        service.visible = False if service.visible else True
+        service.save()
+        Msg.success(request,f'{service.name} has been updated')
+        return redirect('industry:service_detail',pk=service.uuid)
+
 class MemberCreateView(LoginRequiredMixin,ErrorMixin,CreateView):
     model = Member
     template_name = 'industry/member_create.html'
@@ -477,6 +510,7 @@ class MemberDeleteView(LoginRequiredMixin,ErrorMixin,DeleteView):
         url = reverse('industry:member_delete',kwargs={'pk':self.get_object().pk})
         context['url'] = url
         context['info'] = f'Are you sure you want to remove {self.get_object().full_name}?'
+        context['add_info'] = 'This action is irreversible'
         return context
 
     def get_success_url(self):

@@ -12,7 +12,7 @@ urlpatterns = [
     path('church_delete/<uuid:pk>', views.ChurchDeleteView.as_view(), name='church_delete'),
     path('record_delete/<uuid:pk>', views.ChurchRecordDeleteView.as_view(), name='record_delete'),
     path('offering_delete/<uuid:pk>', views.OfferingDeleteView.as_view(), name='offering_delete'),
-    path('service_delete/<uuid:pk>', views.ServiceDeleteView.as_view(), name='service_delete'),
+    path('service_visibility/<uuid:pk>', views.service_visibility, name='service_visibility'),
     path('member_delete/<int:pk>', views.MemberDeleteView.as_view(), name='member_delete'),
 
     #Church Model URLs

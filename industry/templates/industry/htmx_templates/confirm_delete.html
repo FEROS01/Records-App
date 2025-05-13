@@ -2,7 +2,9 @@
     <form class="confirm_box" method="post" action="{{url}}">
         {% csrf_token %}
         <h3>{{info}}</h3>
-        <p>This action is irreversible</p>
+        {% if add_info %}
+        <p>{{add_info}}</p>
+        {% endif %}
         <div class="action">
             <button onclick="cancelDelete()">Cancel</button>
             <button type="submit">Confirm</button>

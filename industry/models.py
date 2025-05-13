@@ -82,6 +82,8 @@ class Service(models.Model):
     start_time = models.TimeField(default='00:00')
     end_time = models.TimeField(default='00:00')
     day = models.CharField(choices=DayChoices,default=DayChoices.MON)
+    visible = models.BooleanField(default=True)
+    special = models.BooleanField(default=False)
     
     def __str__(self):
         return self.name
