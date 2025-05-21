@@ -82,6 +82,10 @@ class Service(models.Model):
     start_time = models.TimeField(default='00:00')
     end_time = models.TimeField(default='00:00')
     day = models.CharField(choices=DayChoices,default=DayChoices.MON)
+    date = models.DateField(
+        default=timezone.now,
+        help_text= "Format: yyyy-mm-dd. This is for special services only!"
+    )
     visible = models.BooleanField(default=True)
     special = models.BooleanField(default=False)
     
@@ -89,7 +93,7 @@ class Service(models.Model):
         return self.name
     
     class Meta:
-        ordering = ['name']
+        ordering = ['-special','name']
 
 class ChurchRecord(models.Model):
     uuid = models.UUIDField(default=uuid4,primary_key=True,editable=False)

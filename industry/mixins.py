@@ -54,7 +54,7 @@ class RecordMixin:
 class ServiceMixin:
     '''Set the fields required for the Service Form and edit the success url'''
 
-    fields = ('name','description','day','start_time','end_time','visible','special')
+    fields = ('name','description','date','day','start_time','end_time','visible','special')
 
     def get_success_url(self):
         uuid = self.object.uuid

@@ -447,9 +447,10 @@ svg {
     display: block;
 }
 
-.industry-card .eye {
+.industry-card .top {
     display: flex;
     padding: 0.5rem;
+    gap: 0.5rem;
     right: 1.5rem;
     width: fit-content;
     position: absolute;
@@ -457,7 +458,7 @@ svg {
     border-radius: 50%;
 }
 
-.eye svg {
+.top svg {
     fill: var(--a600);
     width: 2rem;
     height: 2rem;
@@ -659,6 +660,16 @@ option {
     }
 }
 
+input:required+label::after,
+select:required+label::after,
+textarea:required+label::after {
+    content: "*";
+    color: var(--fail);
+    font-size: 1.5rem;
+    margin-left: 4px;
+
+}
+
 .input-container .input:focus,
 textarea:focus,
 .input-container select:focus {
@@ -717,6 +728,35 @@ textarea:focus,
     padding: 1rem;
     border-radius: 2rem;
 }
+
+.input-container.ic1 input[type="checkbox"] {
+    appearance: none;
+    width: 2rem;
+    height: 2rem;
+    background-color: var(--a50);
+    border: 0.2rem solid var(--a400);
+    border-radius: 0.4rem;
+    display: inline-grid;
+    place-content: center;
+    margin-right: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.input-container.ic1 input[type="checkbox"]::before {
+    content: "";
+    width: 1rem;
+    height: 1rem;
+    transform: scale(0);
+    transition: transform 0.2s ease-in-out;
+    background-color: var(--a800);
+    border-radius: 0.2rem;
+}
+
+.input-container.ic1 input[type="checkbox"]:checked::before {
+    transform: scale(1);
+}
+
 
 /* Select Manager */
 

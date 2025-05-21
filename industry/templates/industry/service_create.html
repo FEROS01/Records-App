@@ -23,50 +23,15 @@
     <button type="submit">Add</button>
 </form>
 
-<style>
-    .input-container.ic1 input[type="checkbox"].input {
-        appearance: none;
-        width: 20px;
-        height: 20px;
-        background-color: var(--a50);
-        border: 2px solid var(--a400);
-        border-radius: 4px;
-        display: inline-grid;
-        place-content: center;
-        margin-right: 10px;
-        cursor: pointer;
-        transition: all 0.2s ease-in-out;
-    }
-
-    .input-container.ic1 input[type="checkbox"].input::before {
-        content: "";
-        width: 10px;
-        height: 10px;
-        transform: scale(0);
-        transition: transform 0.2s ease-in-out;
-        background-color: var(--a800);
-        border-radius: 2px;
-    }
-
-    .input-container.ic1 input[type="checkbox"].input:checked::before {
-        transform: scale(1);
-    }
-
-    .input-container.ic1 label {
-        color: var(--a700);
-        font-size: 14px;
-        cursor: pointer;
-        display: inline-block;
-        vertical-align: middle;
-    }
-</style>
-
 <script>
     let inputs = document.querySelectorAll('input')
     inputs.forEach((input) => {
         input.setAttribute('placeholder', ' ')
-        if (input.type !== 'hidden') {
+        if (input.type !== 'hidden' && input.type !== 'checkbox') {
             input.classList.add('input')
+        }
+        else if (input.type == 'checkbox') {
+            input.nextElementSibling.setAttribute('style', 'all:unset; font-size:1.5rem')
         }
     })
 </script>
