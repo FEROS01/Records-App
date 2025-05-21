@@ -229,6 +229,15 @@ class ChurchRecordCreateView(
     template_name = 'industry/churchrecord_create.html'
     create = True
     
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        service_uuid = self.request.GET.get('service',None)
+
+        if service_uuid:
+            service = get_object_or_404(Service,uuid=service_uuid)
+            form.initial={'service':service.uuid}
+        return form
+    
     def form_valid(self, form):
         Msg.success(self.request,f'Successfully added record')
         return super().form_valid(form)
