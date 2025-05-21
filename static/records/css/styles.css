@@ -11,6 +11,17 @@
     }
 }
 
+@keyframes breathe {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+}
 
 :root {
     --a50: #f6f6f6;
@@ -71,6 +82,10 @@ body {
     background-color: var(--a50);
     margin: 0;
     padding: 0;
+}
+
+a .icon {
+    border: 0.1rem solid var(--a500);
 }
 
 svg {
