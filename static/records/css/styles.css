@@ -101,7 +101,10 @@ svg {
     border-radius: 1.2rem;
     max-width: 40rem;
     margin: auto;
+    align-items: center;
     text-align: center;
+    display: flex;
+    flex-direction: column;
 }
 
 .confirm_box h3 {
@@ -464,7 +467,13 @@ svg {
 
 .RI svg,
 .RI img {
-    width: 12rem;
+    width: 11rem;
+    transition: all 0.3s;
+}
+
+.RI svg:hover,
+.RI img:hover {
+    transform: scale(0.9);
 }
 
 .top svg {
@@ -604,7 +613,13 @@ svg {
 }
 
 .form .title {
+    margin-bottom: 0;
     font-size: 2.5rem;
+}
+
+.form .sub_text {
+    color: var(--a500);
+    font-size: 1.2rem;
 }
 
 .input-container p {
