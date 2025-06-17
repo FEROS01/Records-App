@@ -5,8 +5,8 @@ from . import views
 app_name = 'industry'
 
 urlpatterns = [
-    path('landing/', views.LandingView.as_view(), name='index'),
-    path('', views.IndexView.as_view(), name='index'),
+    path('', views.LandingView.as_view(), name='index'),
+    # path('', views.IndexView.as_view(), name='index'),
     path('set_tz/', views.set_timezone, name='set_timezone'),
     path('service_list/<uuid:church_uuid>', views.service_list, name='service_list'),
     path('member_list/<uuid:church_uuid>', views.member_list, name='member_list'),
