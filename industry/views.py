@@ -32,6 +32,9 @@ def set_timezone(request):
 class IndexView(TemplateView):
     template_name = 'industry/index.html'
 
+class LandingView(TemplateView):
+    template_name = 'industry/landing.html'
+
 class ChurchListView(ListView):
     model = Church
     paginate_by = 10

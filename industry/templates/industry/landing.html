@@ -1,0 +1,604 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" style="overflow: auto">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>RECORD App</title>
+  <meta property="og:title" content="RECORD App" />
+
+  <meta property="og:type" content="website" />
+
+  <meta property="og:image" content="{% static 'records/img/preview.png' %}" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:secure_url" content="{% static 'records/img/preview.png' %}" />
+  <meta property="og:image:type" content="image/png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="{% static 'records/img/preview.png' %}" />
+  <meta name="twitter:image:src" content="{% static 'records/img/preview.png' %}" />
+  <link rel="image_src" href="{% static 'records/img/preview.png' %}" />
+
+  <link rel="stylesheet" type="text/css" href="{% static 'records/css/landing.css' %}" crossorigin="anonymous" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;display=swap" />
+</head>
+
+<body style="margin: 0">
+  <div class="search_box">
+    <div class="links">
+      <div class="icon">
+        <svg class="cancel" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
+          <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+          <path
+            d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z" />
+        </svg>
+      </div>
+      <a onclick="toggleSearch()" href="#features" class="text-[#f6f6f6] hover:text-[#2E7D32] transition-colors"
+        data-id="element-78">Features</a>
+      <a onclick="toggleSearch()" href="#how-it-works" class="text-[#f6f6f6] hover:text-[#2E7D32] transition-colors"
+        data-id="element-79">How It Works</a>
+      <a onclick="toggleSearch()" href="#testimonials" class="text-[#f6f6f6] hover:text-[#2E7D32] transition-colors"
+        data-id="element-80">Testimonials</a>
+      {% if user.is_authenticated %}
+      <a href="{% url 'authentication:log_out' %}" class="text-[#f6f6f6] hover:text-[#2E7D32] transition-colors"> Log
+        Out </a>
+      {% else %}
+      <a href="{% url 'authentication:login' %}" class="text-[#f6f6f6] hover:text-[#2E7D32] transition-colors"> Sign In
+      </a>
+      {% endif %}
+      <a href="{% url 'industry:church_list' %}"
+        class="bg-[#2E7D32] text-white py-2 px-4 rounded-md hover:bg-[#1b5e20] transition-colors" data-id="element-81">
+        Get Started
+      </a>
+    </div>
+  </div>
+  <div id="root">
+    <div class="min-h-screen bg-[#f4f4f4]" data-id="element-0">
+      <header class="sticky top-0 z-50 w-full bg-grad" data-id="element-73">
+        <div class="container mx-auto px-4 py-4 flex items-center justify-between" data-id="element-74">
+          <div class="flex items-center" data-id="element-75">
+            <a class="text-xl font-bold text-[#2E7D32]" data-id="element-76">
+              <img class="sz-11" src="{% static 'records/img/main_logo_1.svg' %}" alt="RECORD">
+            </a>
+          </div>
+          <nav class="hidden md:flex items-center space-x-8" data-id="element-77">
+            <a href="#features" class="text-[#f6f6f6] hover:text-[#2E7D32] transition-colors"
+              data-id="element-78">Features</a><a href="#how-it-works"
+              class="text-[#f6f6f6] hover:text-[#2E7D32] transition-colors" data-id="element-79">How It Works</a><a
+              href="#testimonials" class="text-[#f6f6f6] hover:text-[#2E7D32] transition-colors"
+              data-id="element-80">Testimonials</a><a href="{% url 'industry:church_list' %}"
+              class="bg-[#2E7D32] text-white py-2 px-4 rounded-md hover:bg-[#1b5e20] transition-colors"
+              data-id="element-81">
+              Get Started
+            </a>
+          </nav>
+          <button class="md:hidden text-[#333333] icon hamburger" data-id="element-82">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+              class="lucide lucide-menu" data-id="element-84">
+              <line x1="4" x2="20" y1="12" y2="12"></line>
+              <line x1="4" x2="20" y1="6" y2="6"></line>
+              <line x1="4" x2="20" y1="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </header>
+      <main data-id="element-2">
+        <section class="w-full py-16 md:py-24 bg-[#f4f4f4]" data-id="element-91">
+          <div class="container mx-auto px-4 flex flex-col md:flex-row items-center" data-id="element-92">
+            <div class="w-full md:w-1/2 mb-10 md:mb-0" data-id="element-93">
+              <h1 class="text-4xl md:text-5xl font-bold text-[#222222] mb-4" data-id="element-94">
+                Digital Record-Keeping for Modern Churches
+              </h1>
+              <p class="text-lg text-[#333333] mb-8 max-w-lg" data-id="element-95">
+                Move away from paper-based records. Track attendance,
+                offerings, sermons, and events—all in one digital platform.
+              </p>
+              <div class="flex flex-col sm:flex-row gap-4" data-id="element-96">
+                <a href="{% url 'industry:church_list' %}"
+                  class="bg-[#2E7D32] text-white py-3 px-6 rounded-md hover:bg-[#1b5e20] transition-colors flex items-center justify-center"
+                  data-id="element-97">
+                  Get Started<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-chevron-right ml-2" data-id="element-98">
+                    <path d="m9 18 6-6-6-6"></path>
+                  </svg></a><a href="#how-it-works"
+                  class="bg-white text-[#2E7D32] border border-[#2E7D32] py-3 px-6 rounded-md hover:bg-[#f1f8f1] transition-colors"
+                  data-id="element-99">
+                  Learn More
+                </a>
+              </div>
+            </div>
+            <div class="w-full md:w-1/2" data-id="element-100">
+              <div class="bg-white rounded-lg shadow-xl p-4 transform rotate-1 relative" data-id="element-101">
+                <div class="bg-[#e0e0e0] rounded-lg h-64 md:h-72 flex items-center justify-center"
+                  data-id="element-102">
+                  <div class="text-center p-6 bg-white rounded-lg shadow-md max-w-xs mx-auto" data-id="element-103">
+                    <h3 class="text-xl font-bold text-[#2E7D32] mb-2" data-id="element-104">
+                      RECORD App
+                    </h3>
+                    <p class="text-[#333333]" data-id="element-105">
+                      Dashboard mockup with analytics, attendance graphs, and
+                      recent sermon recordings.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="features" class="w-full py-16 bg-white" data-id="element-20">
+          <div class="container mx-auto px-4" data-id="element-21">
+            <div class="text-center mb-12" data-id="element-22">
+              <h2 class="text-3xl font-bold text-[#222222] mb-4" data-id="element-23">
+                Powerful Features
+              </h2>
+              <p class="text-[#333333] max-w-2xl mx-auto" data-id="element-24">
+                Everything your church needs to transition from paper to
+                digital record-keeping
+              </p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" data-id="element-25">
+              <div class="bg-[#f4f4f4] p-6 rounded-lg hover:shadow-md transition-shadow" data-id="element-26">
+                <div class="mb-4" data-id="element-27">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-users text-[#2E7D32]" data-id="element-16">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-[#222222] mb-2" data-id="element-28">
+                  Track Attendance
+                </h3>
+                <p class="text-[#333333]" data-id="element-29">
+                  Easily record and analyze attendance patterns for all church
+                  services and events.
+                </p>
+              </div>
+              <div class="bg-[#f4f4f4] p-6 rounded-lg hover:shadow-md transition-shadow" data-id="element-26">
+                <div class="mb-4" data-id="element-27">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-book-open text-[#2E7D32]" data-id="element-17">
+                    <path d="M12 7v14"></path>
+                    <path
+                      d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z">
+                    </path>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-[#222222] mb-2" data-id="element-28">
+                  Record Sermons
+                </h3>
+                <p class="text-[#333333]" data-id="element-29">
+                  Store sermon details, including topics, scriptures, and
+                  speaker information.
+                </p>
+              </div>
+              <div class="bg-[#f4f4f4] p-6 rounded-lg hover:shadow-md transition-shadow" data-id="element-26">
+                <div class="mb-4" data-id="element-27">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-chart-pie text-[#2E7D32]" data-id="element-18">
+                    <path
+                      d="M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z">
+                    </path>
+                    <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-[#222222] mb-2" data-id="element-28">
+                  Manage Offerings
+                </h3>
+                <p class="text-[#333333]" data-id="element-29">
+                  Track and categorize financial contributions with secure
+                  digital records.
+                </p>
+              </div>
+              <div class="bg-[#f4f4f4] p-6 rounded-lg hover:shadow-md transition-shadow" data-id="element-26">
+                <div class="mb-4" data-id="element-27">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-calendar text-[#2E7D32]" data-id="element-19">
+                    <path d="M8 2v4"></path>
+                    <path d="M16 2v4"></path>
+                    <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                    <path d="M3 10h18"></path>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-[#222222] mb-2" data-id="element-28">
+                  Event Management
+                </h3>
+                <p class="text-[#333333]" data-id="element-29">
+                  Organize and document all church events in one centralized
+                  location.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="how-it-works" class="w-full py-16 bg-[#f4f4f4]" data-id="element-109">
+          <div class="container mx-auto px-4" data-id="element-110">
+            <div class="text-center mb-12" data-id="element-111">
+              <h2 class="text-3xl font-bold text-[#222222] mb-4" data-id="element-112">
+                How It Works
+              </h2>
+              <p class="text-[#333333] max-w-2xl mx-auto" data-id="element-113">
+                Three simple steps to transform your church's record-keeping
+                process
+              </p>
+            </div>
+            <div class="flex flex-col md:flex-row justify-center items-center md:items-start gap-8"
+              data-id="element-114">
+              <div class="w-full md:w-1/3 flex flex-col items-center text-center max-w-xs" data-id="element-115">
+                <div class="bg-white p-6 rounded-full mb-6 shadow-md" data-id="element-116">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-clipboard text-[#2E7D32]" data-id="element-106">
+                    <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
+                    <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-[#222222] mb-2" data-id="element-117">
+                  Input Your Data
+                </h3>
+                <p class="text-[#333333]" data-id="element-118">
+                  Enter attendance, offerings, and other service details
+                  through our user-friendly forms.
+                </p>
+                <div class="hidden md:block h-0.5 w-16 bg-[#e0e0e0] absolute right-[-8px] top-[50%] translate-y-[-50%]"
+                  data-id="element-119"></div>
+              </div>
+              <div class="w-full md:w-1/3 flex flex-col items-center text-center max-w-xs" data-id="element-115">
+                <div class="bg-white p-6 rounded-full mb-6 shadow-md" data-id="element-116">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-database text-[#2E7D32]" data-id="element-107">
+                    <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                    <path d="M3 5V19A9 3 0 0 0 21 19V5"></path>
+                    <path d="M3 12A9 3 0 0 0 21 12"></path>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-[#222222] mb-2" data-id="element-117">
+                  Secure Storage
+                </h3>
+                <p class="text-[#333333]" data-id="element-118">
+                  All your church records are securely stored in the cloud,
+                  accessible anytime.
+                </p>
+                <div class="hidden md:block h-0.5 w-16 bg-[#e0e0e0] absolute right-[-8px] top-[50%] translate-y-[-50%]"
+                  data-id="element-119"></div>
+              </div>
+              <div class="w-full md:w-1/3 flex flex-col items-center text-center max-w-xs" data-id="element-115">
+                <div class="bg-white p-6 rounded-full mb-6 shadow-md" data-id="element-116">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-chart-no-axes-column text-[#2E7D32]" data-id="element-108">
+                    <line x1="18" x2="18" y1="20" y2="10"></line>
+                    <line x1="12" x2="12" y1="20" y2="4"></line>
+                    <line x1="6" x2="6" y1="20" y2="14"></line>
+                  </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-[#222222] mb-2" data-id="element-117">
+                  Generate Insights
+                </h3>
+                <p class="text-[#333333]" data-id="element-118">
+                  View reports and analytics to make informed decisions for
+                  your ministry.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="testimonials" class="w-full py-16 bg-white" data-id="element-120">
+          <div class="container mx-auto px-4" data-id="element-121">
+            <div class="text-center mb-12" data-id="element-122">
+              <h2 class="text-3xl font-bold text-[#222222] mb-4" data-id="element-123">
+                What Churches Are Saying
+              </h2>
+              <p class="text-[#333333] max-w-2xl mx-auto" data-id="element-124">
+                Join hundreds of churches already using RECORD App
+              </p>
+              <p style="font-size: 0.5rem;" class="text-[#333333] max-w-2xl mx-auto">
+                *these are not real reviews*</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8" data-id="element-125">
+              <div class="bg-[#f4f4f4] p-6 rounded-lg hover:shadow-md transition-shadow" data-id="element-126">
+                <div class="flex mb-4" data-id="element-127">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-star text-[#2E7D32] fill-[#2E7D32]" data-id="element-128">
+                    <polygon
+                      points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                    </polygon>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-star text-[#2E7D32] fill-[#2E7D32]" data-id="element-128">
+                    <polygon
+                      points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                    </polygon>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-star text-[#2E7D32] fill-[#2E7D32]" data-id="element-128">
+                    <polygon
+                      points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                    </polygon>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-star text-[#2E7D32] fill-[#2E7D32]" data-id="element-128">
+                    <polygon
+                      points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                    </polygon>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-star text-[#2E7D32] fill-[#2E7D32]" data-id="element-128">
+                    <polygon
+                      points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                    </polygon>
+                  </svg>
+                </div>
+                <p class="text-[#333333] mb-4 italic" data-id="element-130">
+                  "RECORD App has completely transformed how we manage our
+                  church information. The attendance tracking alone has saved
+                  us hours each week."
+                </p>
+                <div data-id="element-131">
+                  <p class="font-semibold text-[#222222]" data-id="element-132">
+                    Pastor Akinfola Afolabi
+                  </p>
+                  <p class="text-sm text-[#333333]" data-id="element-133">
+                    Faith Community Church
+                  </p>
+                </div>
+              </div>
+              <div class="bg-[#f4f4f4] p-6 rounded-lg hover:shadow-md transition-shadow" data-id="element-126">
+                <div class="flex mb-4" data-id="element-127">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-star text-[#2E7D32] fill-[#2E7D32]" data-id="element-128">
+                    <polygon
+                      points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                    </polygon>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-star text-[#2E7D32] fill-[#2E7D32]" data-id="element-128">
+                    <polygon
+                      points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                    </polygon>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-star text-[#2E7D32] fill-[#2E7D32]" data-id="element-128">
+                    <polygon
+                      points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                    </polygon>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-star text-[#2E7D32] fill-[#2E7D32]" data-id="element-128">
+                    <polygon
+                      points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                    </polygon>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-star text-[#2E7D32] fill-[#2E7D32]" data-id="element-128">
+                    <polygon
+                      points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                    </polygon>
+                  </svg>
+                </div>
+                <p class="text-[#333333] mb-4 italic" data-id="element-130">
+                  "The transition from paper to digital was smoother than we
+                  expected. Now we can access all our records instantly, even
+                  from home."
+                </p>
+                <div data-id="element-131">
+                  <p class="font-semibold text-[#222222]" data-id="element-132">
+                    Sarah Williams
+                  </p>
+                  <p class="text-sm text-[#333333]" data-id="element-133">
+                    First Baptist Church
+                  </p>
+                </div>
+              </div>
+              <div class="bg-[#f4f4f4] p-6 rounded-lg hover:shadow-md transition-shadow" data-id="element-126">
+                <div class="flex mb-4" data-id="element-127">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-star text-[#2E7D32] fill-[#2E7D32]" data-id="element-128">
+                    <polygon
+                      points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                    </polygon>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-star text-[#2E7D32] fill-[#2E7D32]" data-id="element-128">
+                    <polygon
+                      points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                    </polygon>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-star text-[#2E7D32] fill-[#2E7D32]" data-id="element-128">
+                    <polygon
+                      points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                    </polygon>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-star text-[#2E7D32] fill-[#2E7D32]" data-id="element-128">
+                    <polygon
+                      points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                    </polygon>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-star text-gray-300 fill-gray-300" data-id="element-129">
+                    <polygon
+                      points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+                    </polygon>
+                  </svg>
+                </div>
+                <p class="text-[#333333] mb-4 italic" data-id="element-130">
+                  "Being able to track giving patterns has helped us budget
+                  more effectively. The insights from RECORD App have been
+                  invaluable."
+                </p>
+                <div data-id="element-131">
+                  <p class="font-semibold text-[#222222]" data-id="element-132">
+                    Robert Chen
+                  </p>
+                  <p class="text-sm text-[#333333]" data-id="element-133">
+                    New Life Fellowship
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="w-full py-16 bg-[#2E7D32] text-white" data-id="element-9">
+          <div class="container mx-auto px-4 text-center" data-id="element-10">
+            <h2 class="text-3xl font-bold mb-4" data-id="element-11">
+              Ready to Modernize Your Church Records?
+            </h2>
+            <p class="max-w-2xl mx-auto mb-8" data-id="element-12">
+              Join churches across the country who are saving time, improving
+              accuracy, and gaining valuable insights with RECORD App.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4" data-id="element-13">
+              <a href="{% url 'industry:church_list' %}"
+                class="bg-white text-[#2E7D32] py-3 px-8 rounded-md hover:bg-[#f1f8f1] transition-colors font-semibold"
+                data-id="element-14">
+                Get Started Free</a>
+            </div>
+          </div>
+        </section>
+      </main>
+      <footer class="w-full bg-[#222222] text-white py-12" data-id="element-30">
+        <div class="container mx-auto px-4" data-id="element-31">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-8" data-id="element-32">
+            <div data-id="element-33">
+              <h3 class="text-xl font-bold mb-4" data-id="element-34">
+                <img style="width: 7rem;" src="{% static 'records/img/main_logo_1.svg' %}" alt="RECORD">
+              </h3>
+              <p class="text-gray-300 mb-4" data-id="element-35">
+                Digital record-keeping solutions for modern churches.
+              </p>
+              <div class="flex space-x-4" data-id="element-36">
+                <a href="https://www.linkedin.com/in/oluwaferanmi-ope-20a091232"
+                  class="text-gray-300 hover:text-white transition-colors" data-id="element-37">
+                  <svg fill="#f6f6f6" xmlns="http://www.w3.org/2000/svg" width="20"
+                    viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                    <path
+                      d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z" />
+                  </svg>
+                </a>
+                <a href="https://www.twitter.com/oluwaferos" class="text-gray-300 hover:text-white transition-colors"
+                  data-id="element-39"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" class="lucide lucide-twitter" data-id="element-40">
+                    <path
+                      d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z">
+                    </path>
+                  </svg></a><a href="https://www.github.com/FEROS01"
+                  class="text-gray-300 hover:text-white transition-colors" data-id="element-41"><svg fill="#f6f6f6"
+                    width="20" xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 496 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                    <path
+                      d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3 .3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5 .3-6.2 2.3zm44.2-1.7c-2.9 .7-4.9 2.6-4.6 4.9 .3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3 .7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3 .3 2.9 2.3 3.9 1.6 1 3.6 .7 4.3-.7 .7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3 .7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3 .7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <div data-id="element-43">
+              <h4 class="font-semibold mb-4" data-id="element-44">Product</h4>
+              <ul class="space-y-2" data-id="element-45">
+                <li data-id="element-46">
+                  <a href="#" class="text-gray-300 hover:text-white transition-colors" data-id="element-47">Features</a>
+                </li>
+                <li data-id="element-48">
+                  <a href="#" class="text-gray-300 hover:text-white transition-colors" data-id="element-49">Pricing</a>
+                </li>
+                <li data-id="element-50">
+                  <a href="#" class="text-gray-300 hover:text-white transition-colors"
+                    data-id="element-51">Integrations</a>
+                </li>
+                <li data-id="element-52">
+                  <a href="#" class="text-gray-300 hover:text-white transition-colors" data-id="element-53">Updates</a>
+                </li>
+              </ul>
+            </div>
+            <div data-id="element-54">
+              <h4 class="font-semibold mb-4" data-id="element-55">
+                Resources
+              </h4>
+              <ul class="space-y-2" data-id="element-56">
+                <li data-id="element-57">
+                  <a href="#" class="text-gray-300 hover:text-white transition-colors"
+                    data-id="element-58">Documentation</a>
+                </li>
+                <li data-id="element-59">
+                  <a href="#" class="text-gray-300 hover:text-white transition-colors"
+                    data-id="element-60">Tutorials</a>
+                </li>
+                <li data-id="element-61">
+                  <a href="#" class="text-gray-300 hover:text-white transition-colors" data-id="element-62">Blog</a>
+                </li>
+                <li data-id="element-63">
+                  <a href="#" class="text-gray-300 hover:text-white transition-colors" data-id="element-64">Support</a>
+                </li>
+              </ul>
+            </div>
+            <div data-id="element-65">
+              <h4 class="font-semibold mb-4" data-id="element-66">Contact</h4>
+              <ul class="space-y-2" data-id="element-67">
+                <li class="flex items-center" data-id="element-68">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-mail mr-2" data-id="element-69">
+                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                  </svg>
+                  <a href="mailto:records.info.app@gmail.com" class="text-gray-300 hover:text-white transition-colors"
+                    data-id="element-70" style="overflow-wrap: anywhere;">records.info.app@gmail.com</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400 text-sm" data-id="element-71">
+            <p data-id="element-72">
+              © 2025 RECORD App. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+  <script>
+    let searchDiv = document.querySelector(".search_box")
+
+    const toggleSearch = () => {
+      searchDiv.classList.toggle("active");
+    }
+    let cancel = document.querySelector(".search_box .cancel")
+    let hamburger = document.querySelector(".hamburger svg")
+
+    cancel.addEventListener('click', toggleSearch)
+    hamburger.addEventListener('click', toggleSearch)
+
+  </script>
+</body>
+
+</html>

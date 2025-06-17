@@ -311,6 +311,11 @@ svg {
 }
 
 .top_card {
+    top: 0;
+    z-index: 10000;
+    position: sticky;
+    width: 90vw;
+    margin-inline: auto;
     color: var(--a100);
     gap: 1.5rem;
     display: flex;
@@ -402,7 +407,7 @@ svg {
     align-items: center;
     background: #1e1e1ee8;
     animation: fadeInScale 0.5s ease-out;
-    z-index: 1000;
+    z-index: 10001;
 }
 
 .search_box .icon {
