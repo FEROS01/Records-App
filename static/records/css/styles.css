@@ -52,7 +52,7 @@
 ::-webkit-scrollbar-thumb {
     background: var(--a400);
     border-radius: 1rem;
-    transition: all 0.3s ease;
+    transition: all 0.15s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -77,7 +77,7 @@ a .icon {
 }
 
 svg {
-    transition: all 0.3s;
+    transition: all 0.15s;
 }
 
 .not_found {
@@ -131,7 +131,7 @@ svg {
     font-weight: 600;
     border: none;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.15s ease;
     font-size: 1.4rem;
 }
 
@@ -273,7 +273,7 @@ svg {
 /* Dashboard Container */
 
 .sub_head {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     color: #f6f6f6;
     background: #1e1e1e;
     width: fit-content;
@@ -388,12 +388,14 @@ svg {
     color: var(--a100);
     text-decoration: none;
     margin-left: 1.5rem;
-    font-size: 1.3rem;
+    font-size: 1.6rem;
+    transition: all 0.15s;
 }
 
 .nav-links a:hover,
 .nav-links .logout:hover {
-    background: var(--a800);
+    /* background: var(--a800); */
+    color: var(--Primary_color);
 }
 
 .search_box {
@@ -429,7 +431,7 @@ svg {
     background-color: var(--a900);
     border-radius: 5rem;
     outline: none;
-    transition: border 0.3s ease;
+    transition: border 0.15s ease;
 }
 
 .search_box input:focus {
@@ -473,12 +475,12 @@ svg {
 .RI svg,
 .RI img {
     width: 11rem;
-    transition: all 0.3s;
+    transition: all 0.15s;
 }
 
 .RI svg:hover,
 .RI img:hover {
-    transform: scale(0.9);
+    transform: scale(0.95);
 }
 
 .top svg {
@@ -600,7 +602,7 @@ svg {
     padding: 1rem 2rem;
     border-radius: 0.5rem;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.15s;
 }
 
 .form button:hover,
@@ -660,7 +662,7 @@ textarea,
     padding: 0.4rem 2rem 0;
     width: 100%;
     resize: none;
-    transition: all 0.3s ease;
+    transition: all 0.15s ease;
 }
 
 .input-container select {
@@ -727,7 +729,7 @@ textarea:focus,
     pointer-events: none;
     position: absolute;
     transform-origin: 0 50%;
-    transition: all 0.3s;
+    transition: all 0.15s;
     top: 2rem;
 }
 
@@ -769,7 +771,7 @@ textarea:focus,
     place-content: center;
     margin-right: 1rem;
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.15s ease-in-out;
 }
 
 .input-container.ic1 input[type="checkbox"]::before {
@@ -777,7 +779,7 @@ textarea:focus,
     width: 1rem;
     height: 1rem;
     transform: scale(0);
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.15s ease-in-out;
     background-color: var(--a800);
     border-radius: 0.2rem;
 }
