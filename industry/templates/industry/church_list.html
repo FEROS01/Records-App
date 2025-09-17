@@ -1,7 +1,7 @@
 {% extends 'core/base.html' %}
 
 {% block search_box %}
-<div class="search_box">
+<div class="overlay_box search_box">
     <div class="icon">
         <svg class="cancel" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">
             <!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
@@ -91,11 +91,12 @@
     const toggleSearch = () => {
         searchDiv.classList.toggle("active");
     }
-    let cancel = document.querySelector(".search_box .cancel")
+
     let search = document.querySelector(".search svg")
+    let s_cancel = document.querySelector(".search_box .cancel")
     let searchInput = document.querySelector(".search_box input")
 
-    cancel.addEventListener('click', toggleSearch)
+    s_cancel.addEventListener('click', toggleSearch)
     search.addEventListener('click', toggleSearch)
     searchInput.addEventListener('keyup', (evt) => {
         if (evt.key === 'Enter') {

@@ -183,7 +183,7 @@ footer .mb-2 {
 }
 
 footer .mb-4 {
-    margin-bottom: 1rem
+    margin-bottom: 1.5rem
 }
 
 footer .mb-6 {
@@ -310,8 +310,8 @@ footer .space-x-8>:not([hidden])~:not([hidden]) {
 
 footer .space-y-2>:not([hidden])~:not([hidden]) {
     --tw-space-y-reverse: 0;
-    margin-top: calc(.5rem * calc(1 - var(--tw-space-y-reverse)));
-    margin-bottom: calc(.5rem * var(--tw-space-y-reverse))
+    margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(1rem * var(--tw-space-y-reverse))
 }
 
 footer .space-y-4>:not([hidden])~:not([hidden]) {

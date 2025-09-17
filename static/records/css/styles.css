@@ -89,7 +89,13 @@ svg {
 
 .content {
     max-width: 60rem;
-    margin: 0rem auto;
+    /* margin: 0rem auto; */
+    margin-inline: auto;
+    margin-bottom: 2rem;
+}
+
+.content>* {
+    margin-inline: 1rem;
 }
 
 
@@ -289,11 +295,6 @@ svg {
 
 }
 
-.main {
-    width: 97%;
-    margin: 2rem auto;
-}
-
 .top_card h2 {
     font-size: 3rem;
 }
@@ -314,14 +315,14 @@ svg {
     top: 0;
     z-index: 10000;
     position: sticky;
-    width: 90vw;
+    /* width: 90vw; */
     margin-inline: auto;
     color: var(--a100);
     gap: 1.5rem;
     display: flex;
     flex-direction: column;
     background: linear-gradient(90deg, var(--a950) 0%, var(--a900) 80%, var(--a950) 100%);
-    border-radius: 1rem;
+    /* border-radius: 1rem; */
     margin-bottom: 1rem;
     padding: 1.5rem 2rem;
 }
@@ -398,7 +399,7 @@ svg {
     color: var(--Primary_color);
 }
 
-.search_box {
+.overlay_box {
     position: fixed;
     top: 0;
     left: 0;
@@ -412,14 +413,21 @@ svg {
     z-index: 10001;
 }
 
-.search_box .icon {
+.overlay_box .icon {
     position: fixed;
     top: 5vw;
     right: 5vw;
 }
 
-.search_box.active {
+.overlay_box.active {
     display: flex;
+}
+
+.overlay_box .nav-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3.2rem;
 }
 
 .search_box input {
@@ -445,6 +453,16 @@ svg {
     gap: 4rem;
     flex-wrap: wrap;
     padding: 0rem;
+}
+
+@media (max-width: 640px) {
+    .industry-container {
+        justify-content: center;
+    }
+
+    .nav-links {
+        display: none;
+    }
 }
 
 .industry-card {
