@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'industry',
     'authentication',
     'setting',
+    'bible',
     'django_htmx',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -95,9 +96,14 @@ DATABASES = {
         'PASSWORD': os.environ.get("DATABASE_PASSWORD"),
         'HOST': os.environ.get("DATABASE_HOST"),
         'PORT': os.environ.get("DATABASE_PORT"),
-
+    },
+    'bible': {
+        'ENGINE': "django.db.backends.sqlite3",
+        'NAME': BASE_DIR/"bible.sqlite",
     }
 }
+
+DATABASE_ROUTERS = ['bible.routers.BibleRouter']
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

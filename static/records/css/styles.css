@@ -180,6 +180,7 @@ svg {
 
 /* Pop message */
 .p_box {
+    z-index: 1002;
     font-size: 1.3rem;
     justify-content: center;
     display: flex;
@@ -356,6 +357,7 @@ svg {
     cursor: pointer;
     width: 1.5rem;
     fill: var(--a500);
+    color: var(--a500);
     height: 1.5rem;
 }
 
@@ -372,6 +374,9 @@ svg {
     display: flex;
 }
 
+.icon.hamburger {
+    display: none;
+}
 
 .nav-links .logout {
     all: unset;
@@ -462,6 +467,10 @@ svg {
 
     .nav-links {
         display: none;
+    }
+
+    .icon.hamburger {
+        display: flex;
     }
 }
 
