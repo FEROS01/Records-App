@@ -102,7 +102,10 @@ class ChurchRecord(models.Model):
     service = models.ForeignKey(
         Service,on_delete=models.CASCADE,related_name='service_record',default=None)
     sermon_title = models.CharField(max_length=200)
-    text = models.CharField(max_length=200)
+    text = models.CharField(
+        max_length=200,
+        help_text="Format: book chapter:verse1-verse2"
+    )
     service_date = models.DateField(
         _('service date'),
         default=timezone.now,

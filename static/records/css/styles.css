@@ -577,13 +577,22 @@ svg {
 }
 
 .info_card .about {
-    max-width: 40rem;
-    white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    max-height: 1.5rem;
+    max-width: 40rem;
+    /* white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; */
+}
+
+span.passage {
+    /* background: var(--a100); */
+    font-style: italic;
+    font-weight: 100;
 }
 
 .info_card .about.active {
+    max-height: fit-content;
     white-space: wrap;
     overflow: auto;
 }
@@ -858,8 +867,46 @@ th,
 td {
     padding: 1.2rem;
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
 }
+
+@media (max-width: 640px) {
+    th {
+        display: none;
+    }
+
+    td {
+        text-align: left;
+        display: block;
+    }
+
+    .attendance td::before {
+        content: attr("data-cell"), ": ";
+    }
+
+    td::before {
+        font-weight: 700;
+        text-transform: capitalize;
+    }
+
+    .offering td:nth-of-type(1)::before {
+        content: "Currency: ";
+    }
+
+    .offering td:not(.ex):nth-of-type(2)::before {
+        content: "Denomination: ";
+    }
+
+    .offering td:not(.ex):nth-of-type(3)::before {
+        content: "Quantity: ";
+    }
+
+    .offering td:not(.ex):nth-of-type(4)::before {
+        content: "Sub total: ";
+    }
+
+}
+
 
 tr:nth-child(even) {
     background-color: var(--a950);

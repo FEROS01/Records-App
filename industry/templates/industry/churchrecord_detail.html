@@ -88,7 +88,15 @@
         </div>
         <span>
             <h4>Text</h4>
-            <p>{{churchrecord.text}}</p>
+            <p class="about">
+                {{churchrecord.text}} <br>
+                <br>
+                <span class="passage">
+                    {% for passage in passages %}
+                    {{passage}} <br>
+                    {% endfor %}
+                </span>
+            </p>
         </span>
         <div class="icon right">
             <svg xmlns="http://www.w3.org/2000/svg"
@@ -144,32 +152,35 @@
     </a>
     {% endif %}
 </div>
-<table>
-    <thead>
-        <tr>
-            <th>Gender</th>
-            <th>Number</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>Male</td>
-            <td>{{churchrecord.male}}</td>
-        </tr>
-        <tr>
-            <td>Female</td>
-            <td>{{churchrecord.female}}</td>
-        </tr>
-        <tr>
-            <td>Children</td>
-            <td>{{churchrecord.children}}</td>
-        </tr>
-        <tr>
-            <td><b>Total</b></td>
-            <td>{{churchrecord.total_attendance}}</td>
-        </tr>
-    </tbody>
-</table>
+
+<div class="attendance">
+    <table class="attendance">
+        <thead>
+            <tr>
+                <th>Gender</th>
+                <th>Number</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td data-cell="Gender">Male</td>
+                <td data-cell="Number"> {{churchrecord.male}}</td>
+            </tr>
+            <tr>
+                <td data-cell="Gender">Female</td>
+                <td data-cell="Number">{{churchrecord.female}}</td>
+            </tr>
+            <tr>
+                <td data-cell="Gender">Children</td>
+                <td data-cell="Number">{{churchrecord.children}}</td>
+            </tr>
+            <tr>
+                <td><b>Total</b></td>
+                <td>{{churchrecord.total_attendance}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
 <div class="sub">
     <h3 class="sub_head">Offering</h3>
@@ -185,65 +196,70 @@
     </a>
     {% endif %}
 </div>
-<table>
-    <thead>
-        <tr>
-            <th>Currency</th>
-            <th>Denomination</th>
-            <th>Frequency</th>
-            <th>Sum</th>
-            {% if is_manager %}
-            <th></th>
-            {% endif %}
-        </tr>
-    </thead>
-    <tbody>
-        {% for offering in churchrecord.offering.all %}
-        <tr>
-            <td>{{offering.currency}}</td>
-            <td>{{offering.denomination|intcomma}}</td>
-            <td>{{offering.frequency}}</td>
-            <td>{{offering.total|intcomma}}</td>
-            {% if is_manager %}
-            <td class="action">
-                <a title="Edit Entry" href="{% url 'industry:offering_update' offering.uuid %}">
-                    <div class="icon">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
-                            <path
-                                d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z" />
-                        </svg>
-                    </div>
-                </a>
-                <a title="Delete Entry" hx-get="{% url 'industry:offering_delete' offering.uuid %}" hx-target=".main"
-                    hx-swap="afterbegin">
-                    <div class="icon">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
-                            <path
-                                d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z" />
-                        </svg>
-                    </div>
-                </a>
-            </td>
-            {% endif %}
-        </tr>
-        {% endfor %}
-        <tr>
-            <td>{{churchrecord.get_currency}}</td>
-            <td><b>Total</b></td>
-            <td></td>
-            <td>{{churchrecord.total_offering|intcomma}}</td>
-            {% if is_manager %}
-            <td></td>
-            {% endif %}
-        </tr>
-    </tbody>
-</table>
+
+<div class="offering">
+    <table>
+        <thead>
+            <tr>
+                <th>Currency</th>
+                <th>Denomination</th>
+                <th>Frequency</th>
+                <th>Sum</th>
+                {% if is_manager %}
+                <th></th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for offering in churchrecord.offering.all %}
+            <tr>
+                <td>{{offering.currency}}</td>
+                <td>{{offering.denomination|intcomma}}</td>
+                <td>{{offering.frequency}}</td>
+                <td>{{offering.total|intcomma}}</td>
+                {% if is_manager %}
+                <td class="action">
+                    <a title="Edit Entry" href="{% url 'industry:offering_update' offering.uuid %}">
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                                <path
+                                    d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z" />
+                            </svg>
+                        </div>
+                    </a>
+                    <a title="Delete Entry" hx-get="{% url 'industry:offering_delete' offering.uuid %}"
+                        hx-target=".main" hx-swap="afterbegin">
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                                <path
+                                    d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z" />
+                            </svg>
+                        </div>
+                    </a>
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            <tr>
+                <td>{{churchrecord.get_currency}}</td>
+                <td class="ex"><b>Total</b></td>
+                <td class="ex"></td>
+                <td class="ex">{{churchrecord.total_offering|intcomma}}</td>
+                {% if is_manager %}
+                <td class="ex"></td>
+                {% endif %}
+            </tr>
+        </tbody>
+    </table>
+</div>
 
 <script>
     let unfold = document.querySelector('.icon.right svg');
     unfold.addEventListener('click', () => {
+        let about = document.querySelector('.info_card .about')
+        about.classList.toggle('active')
         unfold.classList.toggle('active')
     })
 </script>

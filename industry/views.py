@@ -1,3 +1,4 @@
+import re
 from typing import Any
 
 
@@ -16,7 +17,7 @@ from django.http.response import HttpResponse, Http404
 from django.views.generic import (
     TemplateView, ListView, DetailView, UpdateView, CreateView, DeleteView)
 
-from .utils import search_users, setup_context
+from .utils import search_users, setup_context, prep_text
 from .mixins import *
 from .models import (
     Church, ChurchRecord, Offering, Service, Member)
@@ -223,6 +224,8 @@ class ChurchRecordDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         user = self.request.user
         church = context['object'].church
+        passages = prep_text(context['object'].text)
+        context['passages'] = passages.get_bible_passage()
         context['is_manager'] = church.is_manager(user)
         return context
 

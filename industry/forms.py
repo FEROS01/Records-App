@@ -1,5 +1,9 @@
 from django import forms
 
+from bible.utils import Bible
+
+from .utils import prep_text
+
 from .models import ChurchRecord,Service
 
 class ChurchRecordForm(forms.ModelForm):
@@ -13,7 +17,13 @@ class ChurchRecordForm(forms.ModelForm):
             self.fields['service'].queryset = Service.objects.filter(church=church_instance)
         else:
             self.fields['service'].queryset = Service.objects.none()
-
+    
+    def clean_text(self):
+        text = self.cleaned_data["text"]
+        passage = prep_text(text)
+        passage.confirm_verses()
+        return text
+    
     class Meta:
         model = ChurchRecord
         fields = (
